@@ -1,7 +1,9 @@
 # C# Cheat Sheet
 
 **Version:** 1.0.0
+
 **Framework Version:** .NET Core 3.1.9 or later.
+
 **Language Version:** C# 8.0 or later.
 
 ## Table Of Contents (TOC)
