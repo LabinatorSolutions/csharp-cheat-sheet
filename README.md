@@ -125,7 +125,6 @@
 ## About
 
 - The objective of this C# cheat sheet is to provide a general overview.
-- This guide is under GPLv3 and provided without any liability or warranty.
 - The markdown file of this sheet is hosted on [GitHub](https://github.com/LabinatorSolutions/csharp-cheat-sheet).
 - Contributions, bug fixes, additions, and improvements will be much appreciated.
 - HTML version of this guide is hosted on: https://constructg.com/csharp-cheat-sheet/
