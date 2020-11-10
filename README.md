@@ -1,6 +1,6 @@
 # C# Cheat Sheet - ConstructG.com
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 **Framework Version:** .NET Core 3.1.9 or later.
 
@@ -120,14 +120,14 @@
   - [References](#references)
   - [Credits](#credits)
 
----  
+---
 
 ## About
 
 - The objective of this C# cheat sheet is to provide a general overview.
+- The HTML version of this document is hosted on: https://constructg.com/csharp-cheat-sheet/
 - The markdown file of this sheet is hosted on [GitHub](https://github.com/LabinatorSolutions/csharp-cheat-sheet).
 - Contributions, bug fixes, additions, and improvements will be much appreciated.
-- The HTML version of this document is hosted on: https://constructg.com/csharp-cheat-sheet/
 - Prepared by [ConstructG.com](https://constructg.com/). ConstructG is an online game development academy.
 
 ## C# Introduction
@@ -334,8 +334,8 @@ https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/preprocessor-d
 
 ```csharp
 /*
-	This is a multi-line comment.
-	This is the second line of the comment.
+  This is a multi-line comment.
+  This is the second line of the comment.
 */
 ```
 
@@ -682,7 +682,7 @@ class Test
         double[] result = new double[a.Length];
         for (int i = 0; i < a.Length; i++)
         {
-        	result[i] = f(a[i]);
+          result[i] = f(a[i]);
         }
         return result;
     }
@@ -709,14 +709,14 @@ An interface defines a contract that can be implemented by classes and structs. 
 ```csharp
 public interface IShape
 {
-	void Draw();
+  void Draw();
 }
 class Circle : IShape
 {
-  	public void Draw()
-  	{
-  		Console.WriteLine("Circle Draw");
-  	}
+    public void Draw()
+    {
+      Console.WriteLine("Circle Draw");
+    }
 }
 static void Main(string[] args)
 {
@@ -790,10 +790,65 @@ Console.WriteLine(x); // Outputs => 42
 
 ##### Array Properties & Methods
 
-[XXX]
+The Array class in C# provides various properties and methods to work with arrays.
+
+The Array class implements the **IEnumerable** interface, so you can **LINQ extension methods** such as Max(), Min(), Sum(), Average() and many others.
+
+```csharp
+using System;
+using System.Linq;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        int[] integersArray = new int[5]{80, 20, 35, 18, 9};
+
+        Console.WriteLine(integersArray.Max());
+        Console.WriteLine(integersArray.Min());
+        Console.WriteLine(integersArray.Sum());
+        Console.WriteLine(integersArray.Average());
+    }
+}
+```
+
+The **System.Array** class also includes methods for creating, manipulating, searching, and sorting arrays.
+
+```csharp
+using System;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        int[] integersArray = {20, 9, 16, 50, 3};
+
+        Console.WriteLine("Original Array:");
+        foreach(int element in integersArray)
+        {
+            Console.WriteLine(element);
+        }
+
+        Console.WriteLine("Sorted Array:");
+        Array.Sort(integersArray);
+        foreach(int element in integersArray)
+        {
+            Console.WriteLine(element);
+        }
+
+        Console.WriteLine("Reversed Array:");
+        Array.Reverse(integersArray);
+        Array.ForEach<int>(integersArray, n => Console.WriteLine(n));
+
+        Console.WriteLine(Array.BinarySearch(integersArray, 9));
+    }
+}
+```
 
 **Learn More:**
 https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/
+https://docs.microsoft.com/en-us/dotnet/api/system.array
+https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable
 
 ---
 
@@ -1027,15 +1082,15 @@ int time = 22;
 
 if (time < 10)
 {
-	Console.WriteLine("Good morning.");
+  Console.WriteLine("Good morning.");
 }
 else if (time < 20)
 {
-	Console.WriteLine("Good day.");
+  Console.WriteLine("Good day.");
 }
 else
 {
-	Console.WriteLine("Good evening.");
+  Console.WriteLine("Good evening.");
 }
 
 // Ternary operators
@@ -1149,7 +1204,7 @@ static void Main(string[] args) {
     check:
     if (i < args.Length)
     {
-    	goto loop;
+      goto loop;
     }
 }
 ```
@@ -1248,7 +1303,7 @@ static double Divide(double x, double y)
 {
     if (y == 0)
     {
-    	throw new DivideByZeroException();
+      throw new DivideByZeroException();
     }
     return x / y;
 }
@@ -1296,53 +1351,53 @@ using System;
 
 namespace Example
 {
-	class Complex
-	{
-	    private int realNum, imaginaryNum;
+  class Complex
+  {
+      private int realNum, imaginaryNum;
 
-	    // Defining the constructor
-	    public Complex()
-	    {
-	        realNum = 0;
-	        imaginaryNum = 0;
-	    }
+      // Defining the constructor
+      public Complex()
+      {
+          realNum = 0;
+          imaginaryNum = 0;
+      }
 
-	    // SetValue method sets value of real and img
-	    public void SetValue(int r, int i)
-	    {
-	        realNum = r;
-	        imaginaryNum = i;
-	    }
+      // SetValue method sets value of real and img
+      public void SetValue(int r, int i)
+      {
+          realNum = r;
+          imaginaryNum = i;
+      }
 
-	    // DisplayValue displays values of real and img
-	    public void DisplayValue()
-	    {
-	        Console.WriteLine("Real = " + realNum);
-	        Console.WriteLine("Imaginary = " + imaginaryNum);
-	    }
+      // DisplayValue displays values of real and img
+      public void DisplayValue()
+      {
+          Console.WriteLine("Real = " + realNum);
+          Console.WriteLine("Imaginary = " + imaginaryNum);
+      }
 
-	    // Defining the destructor for class Complex
-	    ~Complex()
-	    {
-	        Console.WriteLine("Destructor was called");
-	    }
+      // Defining the destructor for class Complex
+      ~Complex()
+      {
+          Console.WriteLine("Destructor was called");
+      }
 
-	}
+  }
 
-	class Program
-	{
-	    static void Main(string[] args)
-	    {
-	        // Creating an instance of class Complex C invokes constructor
-	        Complex myComplexNumber = new Complex();
+  class Program
+  {
+      static void Main(string[] args)
+      {
+          // Creating an instance of class Complex C invokes constructor
+          Complex myComplexNumber = new Complex();
 
-	        // Calling SetValue method using instance C Setting values of real to 2 and img to 3
-	        myComplexNumber.SetValue(2, 3);
+          // Calling SetValue method using instance C Setting values of real to 2 and img to 3
+          myComplexNumber.SetValue(2, 3);
 
-	        // Displaying values of real and imaginary parts
-	        myComplexNumber.DisplayValue();
-	    }
-	}
+          // Displaying values of real and imaginary parts
+          myComplexNumber.DisplayValue();
+      }
+  }
 }
 ```
 
@@ -2347,7 +2402,7 @@ namespace Example
 
         static void Main(string[] args)
         {
-        	// Defining a stack of integers
+          // Defining a stack of integers
             Stack<int> intStack = new Stack<int>();
             intStack.Push(1);
             intStack.Push(2);
@@ -2356,7 +2411,7 @@ namespace Example
 
             // Defining a stack of strings
             Stack<string> strStack = new Stack<string>();
-        	strStack.Push("Jane");
+          strStack.Push("Jane");
             strStack.Push("James");
             strStack.Push("John");
             Console.WriteLine(strStack.Get(0)); // Output => Jane
@@ -2892,15 +2947,15 @@ using System;
 
 public class GFG
 {
-	public uint z;
+  public uint z;
 }
 
 class GFG2
 {
-	public static void Main(string[] args)
-	{
-	    Console.WriteLine("Demonstrating the CLSCompliantAttribute");
-	}
+  public static void Main(string[] args)
+  {
+      Console.WriteLine("Demonstrating the CLSCompliantAttribute");
+  }
 }
 ```
 
@@ -2914,7 +2969,7 @@ using System;
 
 // AttributeUsage specifies the usage of InformationAttribute
 [AttributeUsage(AttributeTargets.Class |
-	            AttributeTargets.Constructor |
+              AttributeTargets.Constructor |
                 AttributeTargets.Method, AllowMultiple = true)]
 
 // InformationAttribute is a custom attribute class that is derived from Attribute class
