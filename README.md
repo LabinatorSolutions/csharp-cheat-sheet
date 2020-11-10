@@ -1,4 +1,4 @@
-# C# Cheat Sheet
+# C# Cheat Sheet By ConstructG.com
 
 **Version:** 1.0.0
 
