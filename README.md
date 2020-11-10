@@ -1,4 +1,4 @@
-# C# Cheat Sheet By ConstructG.com
+# C# Cheat Sheet - By ConstructG.com
 
 **Version:** 1.0.0
 
@@ -127,7 +127,8 @@
 - The objective of this C# cheat sheet is to provide a general overview.
 - The markdown file of this sheet is hosted on [GitHub](https://github.com/LabinatorSolutions/csharp-cheat-sheet).
 - Contributions, bug fixes, additions, and improvements will be much appreciated.
-- HTML version of this guide is hosted on: https://constructg.com/csharp-cheat-sheet/
+- The HTML version of this document is hosted on: https://constructg.com/csharp-cheat-sheet/
+- Prepared by [ConstructG.com](https://constructg.com/). ConstructG is an online game development academy.
 
 ## C# Introduction
 
@@ -2978,4 +2979,4 @@ https://docs.unity3d.com/Manual/index.html
 
 **Based On:**
 
-- This guide has used several examples and definitions from the [Microsoft's .NET documentations](https://docs.microsoft.com/en-us/dotnet/).
+- This guide has used several examples and definitions from the [Microsoft's .NET documentation](https://docs.microsoft.com/en-us/dotnet/).
