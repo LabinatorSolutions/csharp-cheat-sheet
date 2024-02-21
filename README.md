@@ -117,6 +117,7 @@
   - [Attributes](#attributes)
     - [Predefined Attributes](#predefined-attributes)
     - [Custom Attributes](#custom-attributes)
+  - [Extension Methods](#extension-methods)
   - [References](#references)
   - [Credits](#credits)
 
@@ -3009,6 +3010,36 @@ public class GFG
 
 **Learn More:**
 https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/
+
+### Extension Methods
+
+Extension methods enable you to "add" methods to existing types without creating a new derived type, recompiling, or otherwise modifying the original type. Extension methods are static methods, but they're called as if they were instance methods on the extended type. 
+
+The following example shows an extension method defined for the System.String class:
+
+```csharp
+namespace ExtensionMethods
+{
+    public static class MyExtensions
+    {
+        public static int WordCount(this string str)
+        {
+            return str.Split(new char[] { ' ', '.', '?' },
+                             StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+    }
+}
+```
+
+It can be called from an application by using this syntax:
+
+```csharp
+string s = "Hello Extension Methods";
+int i = s.WordCount();
+```
+
+**Learn More:**
+https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 
 ---
 
