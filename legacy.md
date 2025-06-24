@@ -1,7 +1,8 @@
 # C# Cheat Sheet - [ConstructG.com](https://constructg.com)
 
 > Assembled By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
-> This is an old version of the guide. Check the latest version at [this link](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/README.md).
+
+> This is an old version of the guide. Check the latest version at [this link](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/README.md)
 
 **Version:** 1.0.1
 
