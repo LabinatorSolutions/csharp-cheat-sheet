@@ -1,10 +1,13 @@
-# C# Cheat Sheet - ConstructG.com
+# C# Cheat Sheet - [ConstructG.com](https://constructg.com)
+
+> Assembled By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
+> This is an old version of the guide. Check the latest version at [this link](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/README.md).
 
 **Version:** 1.0.1
 
-**Framework Version:** .NET Core 3.1.9 or later.
+**Framework Version:** .NET Core 3.1.9 or later
 
-**Language Version:** C# 8.0 or later.
+**Language Version:** C# 8.0 or later
 
 ## Table Of Contents (TOC)
 
