@@ -2,6 +2,8 @@
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
 
+> Covering C# 14+
+
 *A guide to the C# language, which provides the syntax and structure for programming on the .NET platform. It works in conjunction with the .NET Base Class Library (BCL) for core functionalities like collections and I/O.*
 
 ## Outline
