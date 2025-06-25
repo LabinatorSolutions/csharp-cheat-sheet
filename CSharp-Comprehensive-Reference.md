@@ -1,4 +1,4 @@
-# The Ultimate C# Cheatsheet
+# C# Comprehensive Reference
 
 > Comprehensive guide covering all C# features through version 14
 
