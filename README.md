@@ -81,7 +81,7 @@
 *   **C# 11:** Raw string literals, list patterns, `required` members, generic attributes.
 *   **C# 12:** Primary constructors, collection expressions, `using` aliases, `ref readonly` params.
 *   **C# 13:** New `lock` object, `params` collections, `ref` in iterators.
-*   **C# 14:** Extension members, `nameof` with unbound generics, `field` keyword.
+*   **C# 14:** Extension members, `nameof` with unbound generics, `field` keyword, null-conditional assignment (`?.=`), user-defined compound assignment operators.
 
 ### **10. Coding Style & Best Practices**
 
@@ -129,7 +129,7 @@ Every C# application needs a starting point. This is a special method where the 
     ```csharp
     // This is a complete, runnable C# program.
     // There is no need for a namespace, class, or Main method declaration.
-    using System; // Still need 'using' directives for types like Console
+    // In modern .NET, common namespaces like System are globally imported by default.
 
     Console.WriteLine("Hello from a top-level statement!");
 
@@ -361,12 +361,33 @@ Operators are special symbols that perform operations on one or more operands (v
 *   **Assignment Operators:** For assigning values to variables.
     *   `=` (Simple Assignment): Assigns the value on the right to the variable on the left.
     *   **Compound Assignment:** A shorthand for performing an operation and assigning the result. Examples: `+=`, `-=`, `*=`, `/=`, `%=`.
+    *   **User-Defined Compound Assignment (C# 14):** You can now define custom implementations for compound assignment operators in your own types.
 
     ```csharp
     int score = 100; // Simple assignment
 
     score += 10; // Equivalent to: score = score + 10;
     Console.WriteLine($"New score: {score}"); // Output: New score: 110
+    
+    // C# 14 User-Defined Compound Assignment Example
+    public readonly struct Money
+    {
+        public decimal Amount { get; }
+        
+        public Money(decimal amount) => Amount = amount;
+        
+        // Define the addition operator
+        public static Money operator +(Money left, Money right) => 
+            new Money(left.Amount + right.Amount);
+            
+        // Define the compound addition assignment operator (C# 14)
+        public static Money operator +=(Money left, Money right) => 
+            new Money(left.Amount + right.Amount * 0.9m); // 10% discount on additions!
+    }
+    
+    var wallet = new Money(100);
+    wallet += new Money(50); // Uses the custom += operator, applying the discount
+    Console.WriteLine(wallet.Amount); // Output: 145 (100 + 45)
     ```
 
 *   **Comparison Operators:** For comparing two operands. They always return a `bool` (`true` or `false`).
@@ -418,6 +439,30 @@ Operators are special symbols that perform operations on one or more operands (v
         // With the operator, it safely returns null.
         int? nameLength = currentPlayer?.Name?.Length; // The '?' stops execution at each step if null.
         Console.WriteLine(nameLength.HasValue); // Output: False
+        ```
+        
+    *   **Null-Conditional Assignment Operator (`?.=`):** (C# 14) Allows assignment to occur conditionally when the receiver is non-null. If the receiver is `null`, the assignment is skipped entirely.
+
+        ```csharp
+        public class User { public string? DisplayName { get; set; } }
+        
+        void UpdateName(User? user, string newName)
+        {
+            // Without the operator, you'd need to write:
+            // if (user != null) user.DisplayName = newName;
+            
+            // With the operator, it's more concise:
+            user?.DisplayName = newName; // Assignment only happens if user is not null
+        }
+        
+        // Works with events too:
+        public class Button { public event Action? Clicked; }
+        
+        void RegisterHandler(Button? button)
+        {
+            // Safely add an event handler only if button is not null
+            button?.Clicked += () => Console.WriteLine("Button was clicked!");
+        }
         ```
 
 ### **Control Flow (Conditionals)**
@@ -1542,12 +1587,17 @@ These are special-purpose types for situations where defining a formal `class` i
     *   **Use Cases:** Best for interoperating with dynamic systems like Python, JavaScript object models (JSON), or legacy COM APIs.
     *   **Warning:** Use `dynamic` sparingly. You lose the safety net of the static type checker, and errors will only be found when the code runs, not when it compiles.
     ```csharp
-    // Assume we get a JSON object from an API.
-    string json = "{\"Name\":\"John\", \"Age\":30}";
-    dynamic person = System.Text.Json.JsonSerializer.Deserialize<dynamic>(json);
+    // Example 1: Using JsonDocument for safe JSON parsing (recommended)
+    using System.Text.Json;
 
-    // This is resolved at runtime. A typo like person.Aage would compile but crash here.
-    Console.WriteLine(person.Name);
+    string json = "{\"Name\":\"John\", \"Age\":30}";
+    using JsonDocument doc = JsonDocument.Parse(json);
+    JsonElement root = doc.RootElement;
+    Console.WriteLine(root.GetProperty("Name").GetString()); // Output: John
+
+    // Example 2: Using dynamic with Newtonsoft.Json (if you need dynamic behavior)
+    // dynamic person = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+    // Console.WriteLine(person.Name); // This would work with Newtonsoft.Json
     ```
 
 ---
@@ -1677,7 +1727,11 @@ When multiple threads access the same data, you risk creating a **race condition
         }
 
         // --- THE CORRECT, THREAD-SAFE WAY ---
-        private readonly object _lockObject = new object(); // A private object to lock on.
+        // C# 13+: Use the dedicated, high-performance lock object.
+        private lock _lockObject;
+        // Before C# 13, the standard pattern was:
+        // private readonly object _lockObject = new object();
+        
         public int SafeCount { get; private set; }
         public void IncrementSafe()
         {
@@ -1977,7 +2031,7 @@ C# is a language that evolves continuously. This section provides a high-level o
     add(5); // Result: 6
     ```
 
-### **C# 13 (In Preview with .NET 9)**
+### **C# 13 (Released with .NET 9)**
 
 *   **New `lock` Object:** You no longer need to allocate a dedicated `object` for locking. You can now declare a dedicated `lock` object, which is a lightweight, non-allocating synchronization primitive.
     ```csharp
@@ -2001,7 +2055,7 @@ C# is a language that evolves continuously. This section provides a high-level o
     ```
 *   **`ref` and `unsafe` in Iterators:** Iterators (`yield return`) can now be marked as `ref` or `unsafe`, enabling high-performance scenarios that work directly with memory buffers.
 
-### **C# 14 (In Preview with .NET 10)**
+### **C# 14 (Released with .NET 10)**
 
 *   **`field` Keyword in Auto-Properties:** A contextual keyword that allows you to directly access the compiler-generated backing field of an auto-property. This lets you add simple logic to a property without defining your own backing field.
     ```csharp
@@ -2011,6 +2065,84 @@ C# is a language that evolves continuously. This section provides a high-level o
     }
     ```
 *   **Extension Members:** You can now define more than just extension methods. This feature allows for defining properties, indexers, and other members in extension blocks, further enhancing the ability to augment existing types.
+    ```csharp
+    // C# 14 Extension Members Example
+    // This feature requires .NET 10 SDK or higher.
+
+    public static class StringExtensions
+    {
+        // Extension block for string type
+        extension(string source)
+        {
+            // Extension Property: Behaves like a property on the string itself.
+            public bool IsEmpty => string.IsNullOrEmpty(source);
+
+            // Extension Property: Gets the first word.
+            public string FirstWord => source.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+
+            // Extension Method: A method that performs a calculation.
+            public int WordCount() => source.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+            
+            // Extension Indexer: Access characters with validation
+            public char this[int index] => 
+                index >= 0 && index < source.Length 
+                    ? source[index] 
+                    : throw new IndexOutOfRangeException();
+        }
+    }
+
+    // --- How to use it ---
+    string text = "Hello brave new world";
+
+    // Using the extension property directly on the string
+    Console.WriteLine(text.IsEmpty); // Outputs: False
+
+    // Using the extension method directly on the string
+    Console.WriteLine(text.WordCount()); // Outputs: 4
+
+    // Using the new FirstWord property
+    Console.WriteLine(text.FirstWord); // Outputs: "Hello"
+    
+    // Using the extension indexer
+    Console.WriteLine(text[0]); // Outputs: H
+    ```
+*   **`nameof` with Unbound Generics:** The `nameof` operator can now be used with unbound generic types, providing better support for reflection and code generation scenarios.
+    ```csharp
+    string typeName = nameof(List<>); // Returns "List"
+    ```
+*   **Null-Conditional Assignment (`?.=`):** Allows assignment to occur conditionally when the receiver is non-null. If the receiver is `null`, the assignment is skipped entirely.
+    ```csharp
+    // Safely update a property only if the object exists
+    user?.Name = newName;
+    
+    // Works with compound assignments too
+    counter?.Value += 1;
+    
+    // Particularly useful for event handlers
+    button?.Click += HandleClick;
+    ```
+*   **User-Defined Compound Assignment Operators:** You can now define custom implementations for compound assignment operators (`+=`, `-=`, etc.) in your own types, allowing for specialized behavior beyond the default operation-and-assignment.
+    ```csharp
+    public readonly struct Vector2D
+    {
+        public double X { get; }
+        public double Y { get; }
+        
+        public Vector2D(double x, double y) => (X, Y) = (x, y);
+        
+        // Regular addition operator
+        public static Vector2D operator +(Vector2D a, Vector2D b) => 
+            new Vector2D(a.X + b.X, a.Y + b.Y);
+            
+        // Custom compound addition assignment
+        public static Vector2D operator +=(Vector2D target, Vector2D delta) =>
+            new Vector2D(target.X + delta.X * 0.5, target.Y + delta.Y * 0.5); // Half-strength addition
+    }
+    
+    var position = new Vector2D(10, 20);
+    position += new Vector2D(6, 8); // Uses the custom += operator
+    // position is now (13, 24) instead of (16, 28)
+    ```
 
 ---
 
@@ -2043,9 +2175,20 @@ Writing efficient code means understanding how C# features translate to performa
     *   Use a `struct` only for small, data-centric types that have no identity and are logically single values (like `Point`, `Color`). Structs can be more performant as they avoid heap allocations, but they can be slower if passed around frequently as arguments due to copying.
 *   **`Span<T>` and `Memory<T>`:** For high-performance, allocation-free operations on contiguous memory (like parts of an array or a string), use `Span<T>`. This avoids creating new string or array allocations for substrings or sub-arrays, which dramatically reduces memory pressure.
 *   **LINQ Efficiency:**
-    *   **Deferred Execution:** Be aware that many LINQ queries (like `Where`, `Select`) don't execute until you iterate over them.
-    *   **`.ToList()` or `.ToArray()`:** Call these methods only when you need to. Calling them too early can create unnecessary intermediate collections.
-    *   **Performance:** For performance-critical loops, a standard `for` loop is often faster than a LINQ query, as it avoids the overhead of delegates and iterators.
+    *   **Deferred Execution:** Be aware that many LINQ queries (like `Where`, `Select`) don't execute until you iterate over them. This is powerful but can lead to multiple enumerations if not handled carefully.
+    *   **`.ToList()` or `.ToArray()`:** Call these methods only when you need to materialize the collection. Calling them too early can create unnecessary intermediate collections.
+    *   **Performance:** For performance-critical loops, a standard `for` loop is often faster than a LINQ query, as it avoids the overhead of delegates and iterators. However, LINQ is more readable and less error-prone for complex data transformations.
+    *   **Multiple Enumeration:** If you need to iterate over a LINQ query multiple times, call `.ToList()` once to avoid re-executing the query.
+        ```csharp
+        // Inefficient - query executes twice
+        var expensiveQuery = data.Where(x => ExpensiveOperation(x));
+        var count = expensiveQuery.Count();
+        var list = expensiveQuery.ToList();
+        
+        // Efficient - query executes once
+        var results = data.Where(x => ExpensiveOperation(x)).ToList();
+        var count = results.Count;
+        ```
 *   **String Concatenation:** When building a string from many small pieces in a loop, do not use `+`. Each `+` creates a new string object. Use `StringBuilder` instead, which is far more memory efficient.
     ```csharp
     // Inefficient
