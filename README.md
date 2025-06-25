@@ -4,6 +4,8 @@
 
 > Covering C# 14+
 
+---
+
 *A guide to the C# language, which provides the syntax and structure for programming on the .NET platform. It works in conjunction with the .NET Base Class Library (BCL) for core functionalities like collections and I/O.*
 
 ## Table of Contents
@@ -2251,6 +2253,15 @@ Writing readable and maintainable code is crucial. These guides provide industry
     *   **Description:** Google's own internal style guide for C#. While it aligns with Microsoft's guide on many points, it offers a slightly different perspective and additional recommendations. It's a great second opinion from another major tech company.
     *   **Best for:** Developers looking for a comprehensive and respected alternative or supplement to the Microsoft conventions.
 
+### Other Useful Resources
+
+This repository also features other references and resources as follows:
+
+- [C# Mindmap](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Mindmap.html)
+- [C# Concise Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Concise-Reference.md)
+- [C# Comprehensive Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Comprehensive-Reference.md)
+- [The Official C# Documentation In PDF](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/dotNet-CSharp-Official-Doc.pdf)
+
 ### **Premium Learning Resources**
 
-ConstructG delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/
+[ConstructG.com](https://constructg.com) delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/
