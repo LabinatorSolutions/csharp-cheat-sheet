@@ -1,4 +1,4 @@
-# C# Programming Cheat Sheet (2025 Edition)
+# C# Concise Reference
 
 ## Introduction
 
