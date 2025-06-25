@@ -1,5 +1,8 @@
 # C# Concise Reference
 
+> By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity).
+> This file is originally based on the C# cheatsheet of Dr. Milan Milanovic.
+
 ## Introduction
 
 This comprehensive C# cheat sheet serves as a quick reference guide for C# developers at all skill levels. It covers the core language features, modern patterns, and best practices. The cheat sheet organizes **fundamental concepts into more advanced topics**,** making it useful for learning and reference.
@@ -2779,5 +2782,11 @@ public class PropertyDemo
 - [File-scoped namespaces (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/file-scoped-namespaces)
 - [Access modifiers (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/access-modifiers)
 - [Properties (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties)
+
+---
+
+## **Premium Learning Resources**
+
+ConstructG delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/
 
 <div id="end-of-document"></div>
