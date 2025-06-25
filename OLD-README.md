@@ -1,4 +1,4 @@
-# C# Cheat Sheet - [ConstructG.com](https://constructg.com)
+# C# Cheat Sheet (Legacy Edition)
 
 > Assembled By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
 
