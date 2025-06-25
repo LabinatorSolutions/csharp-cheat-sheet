@@ -6,88 +6,74 @@
 
 *A guide to the C# language, which provides the syntax and structure for programming on the .NET platform. It works in conjunction with the .NET Base Class Library (BCL) for core functionalities like collections and I/O.*
 
-## Outline
+## Table of Contents
 
-### **1. Core Concepts & Program Structure**
-
-*   **Program Entry Point:** Traditional `Main` method vs. modern **Top-level Statements**.
-*   **Basic Syntax:** Statements, expressions, code blocks (`{}`), semicolons (`;`).
-*   **`using` Directives:** `using` for namespaces, type aliases, and **`global using`**.
-*   **Keywords:** A complete list of reserved and contextual keywords.
-*   **Variables and Data Types:**
-    *   **Value Types:** `int`, `float`, `char`, `bool`, `decimal`, `struct`, `enum`.
-    *   **Reference Types:** `object`, `string`, `class`, `interface`, `delegate`, arrays.
-    *   **Type Inference (`var`):** Letting the compiler infer the type.
-*   **Nullable Context:** Nullable value types (`int?`) and reference types (`string?`).
-*   **Literals:** Numeric, character, boolean, and string (including raw and UTF-8).
-
-### **2. Operators and Control Flow**
-
-*   **Operators:** Arithmetic, relational, logical, bitwise, shift, and assignment. Includes null-coalescing (`??`) and null-conditional (`?.`) operators.
-*   **Control Flow (Conditionals):** `if-else`, `switch` (statement and expression).
-*   **Control Flow (Loops):** `for`, `foreach`, `while`, `do-while`.
-*   **Jump Statements:** `break`, `continue`, `goto`, `return`.
-
-### **3. Object-Oriented Programming (OOP)**
-
-*   **Types:** `class`, `struct`, `interface`, and `record` (value-based equality and immutability).
-*   **Members:** Fields, methods, properties, indexers, and events.
-*   **Constructors & Initialization:** Instance, static, primary constructors, and object initializers.
-*   **Properties:** Auto-implemented properties, `init`-only setters, `required` members, and `field`.
-*   **Inheritance:** `base` and derived classes, `virtual`, `override`, `abstract`.
-*   **Encapsulation:** Access modifiers (`public`, `private`, `protected`, `internal`).
-*   **Extension Methods:** Extending existing types with new methods.
-
-### **4. Common Collections & Data Structures**
-
-*   **Arrays:** Fixed-size, zero-indexed collections.
-*   **`IEnumerable<T>`:** The core interface for iteration.
-*   **Common BCL Collections:** `List<T>`, `Dictionary<TKey, TValue>`, `HashSet<T>`.
-*   **Collection Expressions:** Modern, concise syntax for creating collections.
-
-### **5. Resource Management**
-
-*   **The `IDisposable` Interface:** The standard pattern for resource cleanup.
-*   **`using` Statement and Declaration:** Deterministic disposal of resources.
-*   **Finalizers (`~`):** Non-deterministic cleanup as a fallback.
-
-### **6. Advanced Language Constructs**
-
-*   **Generics:** Type parameters, constraints, covariance, and contravariance.
-*   **Delegates and Events:** Encapsulating methods for event-driven programming.
-*   **Lambda Expressions:** Concise anonymous functions.
-*   **Tuples and Deconstruction:** Working with and returning multiple values.
-*   **Iterators (`yield return`):** Creating custom, stateful iterators for deferred execution.
-*   **Pattern Matching:** Type, relational, logical, and list patterns.
-*   **Anonymous and Dynamic Types:** `new { ... }` and the `dynamic` keyword for late binding.
-
-### **7. Concurrency, Parallelism, and Asynchrony**
-
-*   **Asynchronous Programming (`async`/`await`):** For non-blocking, I/O-bound operations using `Task`.
-*   **Parallel Programming:** For CPU-bound work using `Task.Run()` and the `Parallel` class.
-*   **Synchronization:** The `lock` statement, `Monitor`, and other primitives (`SemaphoreSlim`) to prevent race conditions.
-
-### **8. Compilation, Metadata, and Interop**
-
-*   **Reflection:** Inspecting and invoking type members at runtime.
-*   **Attributes:** Declarative metadata for code elements.
-*   **Assemblies:** The fundamental unit of deployment and versioning.
-*   **Preprocessor Directives:** Conditional compilation (`#if`, `#define`).
-*   **XML Documentation Comments (`///`):** For generating API documentation.
-*   **Unsafe Code & Interop:** `unsafe` context, pointers, and P/Invoke.
-
-### **9. What's New: C# 11–14 Highlights**
-
-*   **C# 11:** Raw string literals, list patterns, `required` members, generic attributes.
-*   **C# 12:** Primary constructors, collection expressions, `using` aliases, `ref readonly` params.
-*   **C# 13:** New `lock` object, `params` collections, `ref` in iterators.
-*   **C# 14:** Extension members, `nameof` with unbound generics, `field` keyword, null-conditional assignment (`?.=`), user-defined compound assignment operators.
-
-### **10. Coding Style & Best Practices**
-
-*   **Naming and Layout Conventions.**
-*   **Performance:** `struct` vs. `class`, `Span<T>`, LINQ efficiency.
-*   **Error Handling:** Best practices for using exceptions.
+- [The Ultimate C# Comprehensive Cheatsheet](#the-ultimate-c-comprehensive-cheatsheet)
+  - [Table of Contents](#table-of-contents)
+  - [**1. Core Concepts \& Program Structure**](#1-core-concepts--program-structure)
+    - [**Program Entry Point**](#program-entry-point)
+    - [**Basic Syntax**](#basic-syntax)
+    - [**`using` Directives**](#using-directives)
+    - [**Keywords**](#keywords)
+    - [**Variables and Data Types**](#variables-and-data-types)
+    - [**Nullable Context**](#nullable-context)
+    - [**Literals**](#literals)
+  - [**2. Operators and Control Flow**](#2-operators-and-control-flow)
+    - [**Operators**](#operators)
+    - [**Control Flow (Conditionals)**](#control-flow-conditionals)
+    - [**Control Flow (Loops)**](#control-flow-loops)
+    - [**Jump Statements**](#jump-statements)
+  - [**3. Object-Oriented Programming (OOP)**](#3-object-oriented-programming-oop)
+    - [**Types: The Blueprints of Your Application**](#types-the-blueprints-of-your-application)
+    - [**Members: The Building Blocks of a Type**](#members-the-building-blocks-of-a-type)
+    - [**Constructors \& Initialization**](#constructors--initialization)
+    - [**Properties: Smart Fields**](#properties-smart-fields)
+    - [**Inheritance: "Is-A" Relationships**](#inheritance-is-a-relationships)
+    - [**Encapsulation: Hiding Complexity**](#encapsulation-hiding-complexity)
+    - [**Extension Methods: Adding New Behavior**](#extension-methods-adding-new-behavior)
+    - [**Enums: Type-Safe Constants**](#enums-type-safe-constants)
+  - [**4. Common Collections \& Data Structures**](#4-common-collections--data-structures)
+    - [**Arrays**](#arrays)
+    - [**`IEnumerable<T>`: The Heart of Iteration**](#ienumerablet-the-heart-of-iteration)
+    - [**Common BCL Collections**](#common-bcl-collections)
+    - [**Collection Expressions (C# 12)**](#collection-expressions-c-12)
+  - [**5. Resource Management**](#5-resource-management)
+    - [**The `IDisposable` Interface: The Standard Cleanup Contract**](#the-idisposable-interface-the-standard-cleanup-contract)
+    - [**`using` Statement and Declaration: The Safest Way to Manage Resources**](#using-statement-and-declaration-the-safest-way-to-manage-resources)
+    - [**Finalizers (`~`): The Safety Net**](#finalizers--the-safety-net)
+  - [**6. Advanced Language Constructs**](#6-advanced-language-constructs)
+    - [**Generics: Reusable, Type-Safe Code**](#generics-reusable-type-safe-code)
+    - [**Delegates and Events: The Foundation of Callbacks**](#delegates-and-events-the-foundation-of-callbacks)
+    - [**Lambda Expressions: Anonymous Functions**](#lambda-expressions-anonymous-functions)
+    - [**Tuples and Deconstruction**](#tuples-and-deconstruction)
+    - [**Iterators (`yield return`)**](#iterators-yield-return)
+    - [**Pattern Matching**](#pattern-matching)
+    - [**Anonymous and Dynamic Types**](#anonymous-and-dynamic-types)
+  - [**7. Concurrency, Parallelism, and Asynchrony**](#7-concurrency-parallelism-and-asynchrony)
+    - [**Asynchronous Programming (`async` / `await`)**](#asynchronous-programming-async--await)
+    - [**Parallel Programming: Using Multiple Cores**](#parallel-programming-using-multiple-cores)
+    - [**Synchronization: Managing Shared State**](#synchronization-managing-shared-state)
+  - [**8. Compilation, Metadata, and Interop**](#8-compilation-metadata-and-interop)
+    - [**Reflection: Inspecting Code at Runtime**](#reflection-inspecting-code-at-runtime)
+    - [**Attributes: Declarative Metadata for Your Code**](#attributes-declarative-metadata-for-your-code)
+    - [**Assemblies: The Unit of Deployment**](#assemblies-the-unit-of-deployment)
+    - [**Preprocessor Directives**](#preprocessor-directives)
+    - [**XML Documentation Comments**](#xml-documentation-comments)
+    - [**Unsafe Code \& Interop: Talking to the Outside World**](#unsafe-code--interop-talking-to-the-outside-world)
+  - [**9. What's New: C# 11–14 Highlights**](#9-whats-new-c-1114-highlights)
+    - [**C# 11 (Released with .NET 7)**](#c-11-released-with-net-7)
+    - [**C# 12 (Released with .NET 8)**](#c-12-released-with-net-8)
+    - [**C# 13 (Released with .NET 9)**](#c-13-released-with-net-9)
+    - [**C# 14 (Released with .NET 10)**](#c-14-released-with-net-10)
+  - [**10. Coding Style \& Best Practices**](#10-coding-style--best-practices)
+    - [**Naming and Layout Conventions**](#naming-and-layout-conventions)
+    - [**Performance Best Practices**](#performance-best-practices)
+    - [**Error Handling Best Practices**](#error-handling-best-practices)
+  - [**11. Best Resources for C#**](#11-best-resources-for-c)
+    - [**Official Microsoft Documentation (The Source of Truth)**](#official-microsoft-documentation-the-source-of-truth)
+    - [**Interactive Learning \& Tutorials**](#interactive-learning--tutorials)
+    - [**Coding Style Guides**](#coding-style-guides)
+    - [**Premium Learning Resources**](#premium-learning-resources)
 
 ---
 
