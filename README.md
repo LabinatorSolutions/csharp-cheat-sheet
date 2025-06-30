@@ -1,4 +1,4 @@
-# C# Learning Resources
+# C# Learning Resources & Cheat Sheets
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Bundle
 
