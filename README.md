@@ -6,7 +6,7 @@ This repository contains a collection of comprehensive C# learning resources, ch
 
 ## Live Preview
 
-You can check a live preview at > [csharp-kit.constructg.com/](https://csharp-kit.constructg.com/)
+[csharp-kit.constructg.com/](https://csharp-kit.constructg.com/)
 
 ## Available Resources
 
