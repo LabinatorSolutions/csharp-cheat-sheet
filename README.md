@@ -1,8 +1,12 @@
-# C# Learning Resources
+# C# Learning Resources & Cheat Sheets
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Bundle
 
 This repository contains a collection of comprehensive C# learning resources, cheatsheets, and references designed for developers at all skill levels. Whether you're a beginner learning the basics or an experienced developer looking for a quick reference, you'll find valuable resources here.
+
+## Live Preview
+
+> [csharp-kit.constructg.com](https://csharp-kit.constructg.com/)
 
 ## Available Resources
 
@@ -16,10 +20,10 @@ This repository contains a collection of comprehensive C# learning resources, ch
 
 ## How to Use These Resources
 
-- **For beginners**: Start with the [C# Concise Reference](./docs/concise-reference.md) to get familiar with the core concepts.
-- **For quick lookups**: The [C# Ultimate Cheatsheet](./docs/ultimate-cheatsheet.md) is organized for easy reference.
-- **For visual learners**: Check out the [C# Mindmap](./docs/mindmap.html) to see how concepts relate to each other.
-- **For in-depth learning**: The [C# Comprehensive Reference](./docs/comprehensive-reference.md) provides detailed explanations of all features.
+- **For beginners**: Start with the [C# Concise Reference](https://csharp-kit.constructg.com/docs/concise-reference.md) to get familiar with the core concepts.
+- **For quick lookups**: The [C# Ultimate Cheatsheet](https://csharp-kit.constructg.com/docs/ultimate-cheatsheet.md) is organized for easy reference.
+- **For visual learners**: Check out the [C# Mindmap](https://csharp-kit.constructg.com/docs/mindmap.html) to see how concepts relate to each other.
+- **For in-depth learning**: The [C# Comprehensive Reference](https://csharp-kit.constructg.com/docs/comprehensive-reference.md) provides detailed explanations of all features.
 
 ## Repository Structure
 
