@@ -28,7 +28,7 @@
 20. [Interoperability](#20-interoperability)
 21. [Code Organization](#21-code-organization)
 22. [Advanced Language Features](#22-advanced-language-features)
-23. [C# 11-14 Feature Highlights](#23-c-11-14-feature-highlights)
+23. [C# 11-15 Feature Highlights](#23-c-11-15-feature-highlights)
 24. [Performance Optimization](#24-performance-optimization)
 25. [Best Practices and Coding Conventions](#25-best-practices-and-coding-conventions)
 26. [Tooling and Ecosystem](#26-tooling-and-ecosystem)
@@ -69,6 +69,7 @@ C# has evolved significantly since its initial release, with each version introd
 | C# 12.0    | 2023      | .NET 8         | Primary constructors, collection expressions, inline arrays, ref readonly parameters            |
 | C# 13.0    | 2024      | .NET 9         | Params collections, ref struct interfaces, partial properties, field keyword (preview)          |
 | C# 14.0    | 2025      | .NET 10        | Extension members, null-conditional assignment, field keyword, user-defined compound assignment |
+| C# 15.0    | 2026      | .NET 11        | Collection expression arguments                                                                 |
 
 ## C# and the .NET Platform
 
@@ -18246,7 +18247,7 @@ if (dictionary.TryGetValue("key", out var _))
 - [Records (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record)
 - [Pattern Matching (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns)
 
-# 23. C# 11-14 Feature Highlights
+# 23. C# 11-15 Feature Highlights
 
 C# continues to evolve with each new version, introducing features that make the language more expressive, safer, and more performant. This section highlights the key features introduced in C# versions 11 through 14.
 
@@ -18833,12 +18834,30 @@ ProcessData(array); // Implicit conversion from array to Span<T>
 ReadOnlySpan<byte> readOnly = array; // Implicit conversion
 ```
 
+## C# 15 Features
+
+C# 15 was released in 2026 with .NET 11 and introduced Collection expression arguments.
+
+### Collection Expression Arguments
+
+You can pass arguments to the underlying collection's constructor or factory method by using a `with(...)` element as the first element in a collection expression. This feature enables you to specify capacity, comparers, or other constructor parameters directly within the collection expression syntax.
+
+```csharp
+// Pass capacity argument to List<T> constructor
+string[] values = ["one", "two", "three"];
+List<string> names = [with(capacity: values.Length * 2), .. values];
+
+// Pass comparer argument to HashSet<T> constructor
+HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO", "hello"];
+```
+
 ## Resources
 
 - [What's new in C# 11](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11)
 - [What's new in C# 12](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12)
 - [What's new in C# 13](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13)
 - [What's new in C# 14](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14)
+- [What's new in C# 15](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15)
 - [C# Language Versioning](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version)
 
 # 24. Performance Optimization

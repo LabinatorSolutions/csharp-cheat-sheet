@@ -12,8 +12,8 @@ This repository contains a collection of comprehensive C# learning resources, ch
 
 | Resource                                                        | Description                                                          |
 | --------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [C# Ultimate Cheatsheet](./docs/ultimate-cheatsheet.md)         | The most comprehensive C# cheatsheet covering C# 14+ features        |
-| [C# Comprehensive Reference](./docs/comprehensive-reference.md) | Detailed reference guide covering all C# features through version 14 |
+| [C# Ultimate Cheatsheet](./docs/ultimate-cheatsheet.md)         | The most comprehensive C# cheatsheet covering C# 15+ features        |
+| [C# Comprehensive Reference](./docs/comprehensive-reference.md) | Detailed reference guide covering all C# features through version 15 |
 | [C# Concise Reference](./docs/concise-reference.md)             | A more concise reference guide for quick lookups                     |
 | [C# Mindmap](./docs/mindmap.html)                               | Visual mindmap of C# concepts and their relationships                |
 | [C# Legacy Cheatsheet](./docs/legacy-cheatsheet.md)             | Legacy version of the C# cheatsheet (C# 8.0)                         |

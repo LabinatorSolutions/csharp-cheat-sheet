@@ -2,7 +2,7 @@
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
 
-> Covering C# 14+
+> Covering C# 15+
 
 ---
 
@@ -62,11 +62,12 @@
     - [**Preprocessor Directives**](#preprocessor-directives)
     - [**XML Documentation Comments**](#xml-documentation-comments)
     - [**Unsafe Code \& Interop: Talking to the Outside World**](#unsafe-code--interop-talking-to-the-outside-world)
-  - [**9. What's New: C# 11–14 Highlights**](#9-whats-new-c-1114-highlights)
+  - [**9. What's New: C# 11–15 Highlights**](#9-whats-new-c-1115-highlights)
     - [**C# 11 (Released with .NET 7)**](#c-11-released-with-net-7)
     - [**C# 12 (Released with .NET 8)**](#c-12-released-with-net-8)
     - [**C# 13 (Released with .NET 9)**](#c-13-released-with-net-9)
     - [**C# 14 (Released with .NET 10)**](#c-14-released-with-net-10)
+    - [**C# 15 (Released with .NET 11)**](#c-15-released-with-net-11)
   - [**10. Coding Style \& Best Practices**](#10-coding-style--best-practices)
     - [**Naming and Layout Conventions**](#naming-and-layout-conventions)
     - [**Performance Best Practices**](#performance-best-practices)
@@ -1944,13 +1945,13 @@ C# is a "safe," managed language by default, meaning you don't directly manipula
 
 ---
 
-Of course. Here are the final two modules, "What's New: C# 11–14 Highlights" and "Coding Style & Best Practices," written in the same comprehensive style.
+Of course. Here are the final two modules, "What's New: C# 11–15 Highlights" and "Coding Style & Best Practices," written in the same comprehensive style.
 
 ---
 
-## **9. What's New: C# 11–14 Highlights**
+## **9. What's New: C# 11–15 Highlights**
 
-C# is a language that evolves continuously. This section provides a high-level overview of the most impactful features introduced in recent versions, from C# 11 through the latest developments in C# 14. This is not an exhaustive list but covers the highlights you're most likely to use.
+C# is a language that evolves continuously. This section provides a high-level overview of the most impactful features introduced in recent versions, from C# 11 through the latest developments in C# 15. This is not an exhaustive list but covers the highlights you're most likely to use.
 
 ### **C# 11 (Released with .NET 7)**
 
@@ -2131,6 +2132,20 @@ C# is a language that evolves continuously. This section provides a high-level o
     var position = new Vector2D(10, 20);
     position += new Vector2D(6, 8); // Uses the custom += operator
     // position is now (13, 24) instead of (16, 28)
+    ```
+
+### **C# 15 (Released with .NET 11)**
+
+*   **Collection Expression Arguments:** You can pass arguments to the underlying collection's constructor or factory method by using a `with(...)` element as the first element in a collection expression. This enables specifying capacity or custom comparers directly in the initialization syntax.
+    ```csharp
+    string[] values = ["one", "two", "three"];
+    
+    // Pass capacity argument to List<T> constructor for better performance
+    List<string> names = [with(capacity: values.Length * 2), .. values];
+    
+    // Pass comparer argument to HashSet<T> constructor
+    // set contains only one element because all strings are equal with OrdinalIgnoreCase
+    HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO", "hello"];
     ```
 
 ---
