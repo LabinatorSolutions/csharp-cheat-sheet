@@ -1,12 +1,12 @@
 # C# Learning Resources & Cheat Sheets
 
-> By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Bundle
+> By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14
 
 This repository contains a collection of comprehensive C# learning resources, cheatsheets, and references designed for developers at all skill levels. Whether you're a beginner learning the basics or an experienced developer looking for a quick reference, you'll find valuable resources here.
 
 ## Live Preview
 
-> [csharp-kit.constructg.com](https://csharp-kit.constructg.com/)
+> [csharp-cheatsheet.labinator.com](https://csharp-cheatsheet.labinator.com/)
 
 ## Available Resources
 
@@ -16,14 +16,14 @@ This repository contains a collection of comprehensive C# learning resources, ch
 | [C# Comprehensive Reference](./docs/comprehensive-reference.md) | Detailed reference guide covering all C# features through version 14, plus a preview of unreleased C# 15 features |
 | [C# Concise Reference](./docs/concise-reference.md)             | A more concise reference guide for quick lookups                     |
 | [C# Mindmap](./docs/mindmap.html)                               | Visual mindmap of C# concepts and their relationships                |
-| [C# Legacy Cheatsheet](./docs/legacy-cheatsheet.md)             | Legacy version of the C# cheatsheet (C# 8.0)                         |
 
 ## How to Use These Resources
 
-- **For beginners**: Start with the [C# Concise Reference](https://csharp-kit.constructg.com/docs/concise-reference.md) to get familiar with the core concepts.
-- **For quick lookups**: The [C# Ultimate Cheatsheet](https://csharp-kit.constructg.com/docs/ultimate-cheatsheet.md) is organized for easy reference.
-- **For visual learners**: Check out the [C# Mindmap](https://csharp-kit.constructg.com/docs/mindmap.html) to see how concepts relate to each other.
-- **For in-depth learning**: The [C# Comprehensive Reference](https://csharp-kit.constructg.com/docs/comprehensive-reference.md) provides detailed explanations of all features.
+- **For beginners**: Start with the [C# Concise Reference](https://csharp-cheatsheet.labinator.com/docs/concise-reference.md) to get familiar with the core concepts.
+- **For quick lookups**: The [C# Ultimate Cheatsheet](https://csharp-cheatsheet.labinator.com/docs/ultimate-cheatsheet.md) is organized for easy reference.
+- **For visual learners**: Check out the [C# Mindmap](https://csharp-cheatsheet.labinator.com/docs/mindmap.html) to see how concepts relate to each other.
+- **For in-depth learning**: The [C# Comprehensive Reference](https://csharp-cheatsheet.labinator.com/docs/comprehensive-reference.md) provides detailed explanations of all features.
+- **For the full structured course**: [Labinator's Core C# Guide](https://csharp.labinator.com/) covers the same material as a progressive, in-depth learning path rather than a reference.
 
 ## Repository Structure
 
@@ -37,9 +37,7 @@ CSharp Cheatsheet/
 ├── docs/                           # Documentation files
 │   ├── comprehensive-reference.md  # Comprehensive C# reference
 │   ├── concise-reference.md        # Concise C# reference
-│   ├── legacy-cheatsheet.md        # Legacy C# cheatsheet
-│   ├── mindmap.html                # Visual C# mindmap
-│   └── ultimate-cheatsheet.md      # Ultimate C# cheatsheet
+│   └── mindmap.html                # Visual C# mindmap
 ├── index.html                      # Main landing page
 ├── LICENSE.md                      # License information
 └── README.md                       # This file
@@ -53,6 +51,6 @@ Contributions, bug fixes, additions, and improvements are welcome! Please feel f
 
 This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE.md](./LICENSE.md) file for details.
 
-## About ConstructG
+## About Labinator
 
-[ConstructG.com](https://constructg.com) is an online game development academy that offers comprehensive courses on C#, Data Structures & Algorithms, Avalonia UI, and Unity game development.
+[Labinator.com](https://labinator.com) is a software development studio. These C# references are maintained alongside [Labinator's Core C# Guide](https://csharp.labinator.com/) and [Unity C# Guide](https://unity.labinator.com/).

@@ -1,6 +1,6 @@
 # The Ultimate C# Comprehensive Cheatsheet
 
-> By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
+> By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14
 
 > Covering C# 1 through 14, plus a preview of unreleased C# 15 features
 
@@ -2349,7 +2349,3 @@ This repository also features other references and resources as follows:
 - [C# Concise Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Concise-Reference.md)
 - [C# Comprehensive Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Comprehensive-Reference.md)
 - [The Official C# Documentation In PDF](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/dotNet-CSharp-Official-Doc.pdf)
-
-### **Premium Learning Resources**
-
-[ConstructG.com](https://constructg.com) delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/

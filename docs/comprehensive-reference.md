@@ -1,6 +1,6 @@
 # C# Comprehensive Reference
 
-> By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
+> By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14
 
 > Comprehensive guide covering all C# features through version 14, plus a preview look at C# 15 (not yet released)
 
@@ -21633,8 +21633,3 @@ The C# and .NET ecosystem continues to evolve rapidly, with new features and imp
 
 Remember that the best way to learn is by doing. Combine theoretical knowledge from these resources with practical experience by building your own projects, contributing to open source, and solving real-world problems.
 
----
-
-## **Premium Learning Resources**
-
-ConstructG delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/

@@ -1,6 +1,6 @@
 # C# Concise Reference
 
-> By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity).
+> By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14.
 > This file is originally based on the C# cheatsheet of Dr. Milan Milanovic.
 
 ## Introduction
@@ -3151,11 +3151,5 @@ public class Person
 - [File-scoped namespaces (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/file-scoped-namespaces)
 - [Access modifiers (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/access-modifiers)
 - [Properties (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties)
-
----
-
-## **Premium Learning Resources**
-
-ConstructG delivers one of the most structured and in-depth C# learning systems available. With real-world project plans, reference guides, and an AI assistant available 24/7, it's designed to take you from beginner to job-ready developer. Explore the ultimate bundle at: https://constructg.com/
 
 <div id="end-of-document"></div>
