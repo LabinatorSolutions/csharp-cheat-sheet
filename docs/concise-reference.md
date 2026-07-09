@@ -15,6 +15,7 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
 - [Comments](#comments)
 - [Strings](#strings)
 - [Basic types and literals](#basic-types-and-literals)
+  - [New Escape Sequence (C# 13+)](#new-escape-sequence-c-13)
 - [Statements](#statements)
   - [Control flow](#control-flow)
     - [If-else statements](#if-else-statements)
@@ -24,6 +25,7 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
     - [Foreach loops](#foreach-loops)
     - [While and do-while loops](#while-and-do-while-loops)
   - [Lock statement](#lock-statement)
+    - [New Lock Type (C# 13+)](#new-lock-type-c-13)
   - [Using statement](#using-statement)
   - [Unsafe code](#unsafe-code)
   - [Yield statement](#yield-statement)
@@ -32,32 +34,46 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
   - [Basic method syntax](#basic-method-syntax)
   - [Expression-bodied members (C# 6.0+)](#expression-bodied-members-c-60)
   - [Method parameters](#method-parameters)
+    - [Ref Readonly Parameters (C# 12+)](#ref-readonly-parameters-c-12)
+    - [Params Collections (C# 13+)](#params-collections-c-13)
   - [Local functions (C# 7.0+)](#local-functions-c-70)
   - [Extension methods](#extension-methods)
+    - [Extension Members (C# 14+)](#extension-members-c-14)
   - [Lambda expressions](#lambda-expressions)
     - [Default parameters in lambdas (C# 12)](#default-parameters-in-lambdas-c-12)
+    - [Lambda Parameter Modifiers (C# 14+)](#lambda-parameter-modifiers-c-14)
   - [Method overloading](#method-overloading)
+    - [Overload Resolution Priority (C# 13+)](#overload-resolution-priority-c-13)
 - [Delegates and events](#delegates-and-events)
+  - [Method Group Natural Type Improvements (C# 13+)](#method-group-natural-type-improvements-c-13)
 - [Data types](#data-types)
   - [Classes](#classes)
   - [Structs](#structs)
+  - [Inline Arrays (C# 12+)](#inline-arrays-c-12)
+  - [Ref Structs Implementing Interfaces (C# 13+)](#ref-structs-implementing-interfaces-c-13)
   - [Records (C# 9.0+)](#records-c-90)
   - [Record structs (C# 10.0+)](#record-structs-c-100)
   - [Interfaces](#interfaces)
   - [Enums](#enums)
   - [Tuples](#tuples)
   - [Nullable types](#nullable-types)
+    - [Null Conditional Assignment (C# 14+)](#null-conditional-assignment-c-14)
 - [Generics](#generics)
+  - [Ref Struct Generic Constraint (C# 13+)](#ref-struct-generic-constraint-c-13)
+  - [Nameof With Unbound Generic Types (C# 14+)](#nameof-with-unbound-generic-types-c-14)
 - [Classes](#classes-1)
   - [Constructors and initialization](#constructors-and-initialization)
+    - [Implicit Indexer Access in Object Initializers (C# 13+)](#implicit-indexer-access-in-object-initializers-c-13)
   - [Primary constructors (C# 12+)](#primary-constructors-c-12)
   - [Inheritance](#inheritance)
   - [Abstract classes](#abstract-classes)
   - [Sealed classes and members](#sealed-classes-and-members)
   - [Polymorphism](#polymorphism)
+  - [User Defined Compound Assignment Operators (C# 14+)](#user-defined-compound-assignment-operators-c-14)
 - [Collections](#collections)
   - [Collection Expressions (C# 12+)](#collection-expressions-c-12)
   - [Arrays](#arrays)
+  - [Implicit Span Conversions (C# 14+)](#implicit-span-conversions-c-14)
   - [Lists](#lists)
   - [Dictionary](#dictionary)
   - [HashSet](#hashset)
@@ -91,11 +107,15 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
     - [Namespace organization best practices:](#namespace-organization-best-practices)
   - [Using directives](#using-directives)
     - [Using directives best practices:](#using-directives-best-practices)
+    - [File Based Apps (C# 14+)](#file-based-apps-c-14)
   - [File-scoped types (C# 11+)](#file-scoped-types-c-11)
   - [Partial classes](#partial-classes)
+    - [Partial Properties and Indexers (C# 13+)](#partial-properties-and-indexers-c-13)
+    - [Partial Events and Constructors (C# 14+)](#partial-events-and-constructors-c-14)
   - [Access modifiers](#access-modifiers)
     - [Access modifier guidelines:](#access-modifier-guidelines)
   - [Properties and indexers](#properties-and-indexers)
+    - [Field Keyword (C# 14+)](#field-keyword-c-14)
   - [**Premium Learning Resources**](#premium-learning-resources)
 
 <div id="comments"></div>
@@ -274,6 +294,17 @@ DateTime defaultDateTime = default;  // 0001-01-01 00:00:00
 using intptr = nint;               // Native-sized integer
 using uintptr = nuint;             // Unsigned native-sized integer
 using index = System.Index;        // Type alias for Index
+```
+
+## New Escape Sequence (C# 13+)
+
+C# 13 adds a dedicated escape sequence for the ESCAPE character (`U+001B`), replacing the error-prone `\x1b` (which could swallow following hex digits) or a full Unicode escape.
+
+```csharp
+char escapeChar = '\e'; // U+001B, ESCAPE
+
+// Common use: ANSI escape codes for colored console output
+Console.WriteLine($"\e[31mThis text is red\e[0m");
 ```
 
 Type inference with `var` (compile-time determined):
@@ -573,6 +604,23 @@ public void AddItem(string item)
 4. Don't execute long-running or blocking operations inside a lock
 5. Consider using higher-level synchronization primitives for complex scenarios
 
+### New Lock Type (C# 13+)
+
+The .NET 9 runtime adds a dedicated `System.Threading.Lock` type. The `lock` statement recognizes when its target is a `Lock` object and automatically uses `Lock`'s more efficient API instead of the traditional `Monitor`-based one - no other code needs to change.
+
+```csharp
+private readonly System.Threading.Lock _lockObject = new();
+
+public void AddItem(string item)
+{
+    lock (_lockObject) // Uses the faster Lock.EnterScope() API under the hood
+    {
+        _items.Add(item);
+        _count++;
+    }
+}
+```
+
 ## Using statement
 
 The `using` statement ensures that disposable resources are properly cleaned up, even if exceptions occur. It's an essential pattern for working with resources like files, network connections, and database connections that need to be explicitly released.
@@ -811,6 +859,30 @@ public int Sum(params int[] numbers)
 // Usage: Sum(1, 2, 3, 4, 5);
 ```
 
+### Ref Readonly Parameters (C# 12+)
+
+`ref readonly` combines the performance of passing by reference (no copying) with the safety of `in` - it signals intent clearly and prevents accidental modification.
+
+```csharp
+public void ProcessData(ref readonly Point point)
+{
+    // Can read point.X but the compiler prevents modifying point here
+    Console.WriteLine(point.X);
+}
+```
+
+### Params Collections (C# 13+)
+
+The `params` modifier is no longer restricted to arrays. It now works with `Span<T>`, `ReadOnlySpan<T>`, and any type that implements `IEnumerable<T>` with an `Add` method (including `List<T>` and the collection interfaces).
+
+```csharp
+public void PrintNames(params ReadOnlySpan<string> names)
+{
+    foreach (var name in names) Console.WriteLine(name);
+}
+// Usage: PrintNames("Alice", "Bob"); - no array allocation needed
+```
+
 ## Local functions (C# 7.0+)
 
 Local functions allow you to define methods inside other methods, encapsulating helper logic that is only relevant to the containing method.
@@ -857,6 +929,29 @@ bool isEmpty = text.IsNullOrEmpty(); // false
 string truncated = text.Truncate(5); // "Hello"
 ```
 
+### Extension Members (C# 14+)
+
+Extension blocks let you define extension properties and static extension members, not just methods, for an existing type.
+
+```csharp
+public static class StringExtensions
+{
+    extension(string source)
+    {
+        // Extension property
+        public bool IsEmpty => string.IsNullOrEmpty(source);
+
+        // Extension method (same as before, just inside the block)
+        public int WordCount() => source.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+}
+
+// Usage
+string text = "Hello brave new world";
+Console.WriteLine(text.IsEmpty);     // False
+Console.WriteLine(text.WordCount()); // 4
+```
+
 ## Lambda expressions
 
 Lambda expressions provide a concise way to create anonymous functions, especially useful for LINQ queries, event handlers, and functional programming patterns.
@@ -895,6 +990,17 @@ Func<int, int, int> add = (x, y = 10) => x + y;
 int result = add(5); // 15
 ```
 
+### Lambda Parameter Modifiers (C# 14+)
+
+You can now add `scoped`, `ref`, `in`, `out`, or `ref readonly` to lambda parameters without also specifying an explicit type.
+
+```csharp
+delegate bool TryParse<T>(string text, out T result);
+
+// No explicit type needed alongside the 'out' modifier
+TryParse<int> parse = (text, out result) => int.TryParse(text, out result);
+```
+
 ## Method overloading
 
 Method overloading allows multiple methods with the same name but different parameter lists, providing flexibility in how a method can be called.
@@ -914,6 +1020,22 @@ public void Display(string value)
 public void Display(int value, string format)
 {
     Console.WriteLine($"Formatted: {value.ToString(format)}");
+}
+```
+
+### Overload Resolution Priority (C# 13+)
+
+Library authors can mark one overload as preferred over another using `[OverloadResolutionPriority]`, so callers automatically bind to the better overload without ambiguity errors.
+
+```csharp
+using System.Runtime.CompilerServices;
+
+public class Api
+{
+    public void Process(int value) { /* legacy */ }
+
+    [OverloadResolutionPriority(1)] // Preferred over the overload above
+    public void Process(long value) { /* newer, more performant */ }
 }
 ```
 
@@ -957,6 +1079,23 @@ public class Button
 // Usage
 var button = new Button();
 button.Clicked += (sender, args) => Console.WriteLine("Clicked!");
+```
+
+## Method Group Natural Type Improvements (C# 13+)
+
+The compiler now prunes inapplicable overload candidates scope-by-scope when inferring a method group's natural delegate type, instead of gathering every candidate across all scopes first. This more closely follows normal overload resolution and can affect which natural type (if any) a method group has in edge cases involving overloaded generic methods.
+
+```csharp
+class Repository
+{
+    public void Save(int id) { }
+    public void Save<T>(T item) where T : class { }
+}
+
+var repo = new Repository();
+// Only applicable overloads at each scope are considered when inferring
+// a natural delegate type for the method group below.
+Action<int> saveAction = repo.Save;
 ```
 
 **Additional resources**:
@@ -1071,6 +1210,47 @@ public struct Point
 // Usage
 Point point = new Point(3, 4);
 double distance = point.DistanceFromOrigin(); // 5
+```
+
+## Inline Arrays (C# 12+)
+
+Inline arrays let a `struct` hold a fixed-size buffer of elements directly (no heap allocation), giving array-like performance for small, fixed-size data - useful for low-level and high-performance scenarios.
+
+```csharp
+[System.Runtime.CompilerServices.InlineArray(10)]
+public struct Buffer10
+{
+    private int _element0;
+}
+
+// Usage
+var buffer = new Buffer10();
+for (int i = 0; i < 10; i++) buffer[i] = i * i;
+Span<int> span = buffer; // Inline arrays convert implicitly to Span<T>
+```
+
+## Ref Structs Implementing Interfaces (C# 13+)
+
+`ref struct` types can now implement interfaces. Because a `ref struct` can't be boxed (ref safety), it can't be converted to the interface type directly - explicit interface members are only reachable through a generic type parameter constrained with `allows ref struct`.
+
+```csharp
+public interface IProcessor
+{
+    void Process(Span<int> data);
+}
+
+ref struct FastProcessor : IProcessor
+{
+    public void Process(Span<int> data)
+    {
+        for (int i = 0; i < data.Length; i++) data[i] *= 2;
+    }
+}
+
+// Usage
+Span<int> numbers = stackalloc int[] { 1, 2, 3 };
+var processor = new FastProcessor();
+processor.Process(numbers);
 ```
 
 ## Records (C# 9.0+)
@@ -1307,6 +1487,24 @@ int? length = nullableString?.Length; // null if nullableString is null
 nullableString ??= "Default";
 ```
 
+### Null Conditional Assignment (C# 14+)
+
+The null-conditional operators `?.` and `?[]` can now appear on the *left* side of an assignment (including compound assignments). The right side is only evaluated when the left side isn't null.
+
+```csharp
+// Before C# 14
+if (customer is not null)
+{
+    customer.Order = GetCurrentOrder();
+}
+
+// With C# 14 - GetCurrentOrder() is only called if customer isn't null
+customer?.Order = GetCurrentOrder();
+
+// Works with compound assignment too (not with ++ or --)
+counter?.Value += 1;
+```
+
 <div id="generics"></div>
 
 # Generics
@@ -1347,6 +1545,28 @@ public class EmployeeRepository<T> where T : Employee, new()
 {
     public T Create() => new T();
 }
+```
+
+## Ref Struct Generic Constraint (C# 13+)
+
+By default, `ref struct` types (like `Span<T>`) can't be used as generic type arguments. The `allows ref struct` anti-constraint opts a type parameter into accepting them.
+
+```csharp
+void ProcessValue<T>(T value) where T : allows ref struct
+{
+    // T might be a ref struct here, so it can't be boxed or captured by lambdas.
+}
+
+Span<int> numbers = stackalloc int[] { 1, 2, 3 };
+ProcessValue(numbers); // Works because of 'allows ref struct'
+```
+
+## Nameof With Unbound Generic Types (C# 14+)
+
+`nameof` can now accept an unbound generic type, such as `List<>`, instead of requiring a closed generic type like `List<int>`.
+
+```csharp
+string typeName = nameof(List<>); // "List"
 ```
 
 **Additional resources**:
@@ -1412,6 +1632,27 @@ public class Employee : Person
     {
     }
 }
+```
+
+### Implicit Indexer Access in Object Initializers (C# 13+)
+
+The `^` ("from the end") index operator can now be used inside an object initializer for single-dimension collections, letting you set values by position without a separate statement.
+
+```csharp
+public class TimerRemaining
+{
+    public int[] Buffer { get; set; } = new int[10];
+}
+
+var countdown = new TimerRemaining
+{
+    Buffer =
+    {
+        [^1] = 0, // Last element
+        [^2] = 1,
+        [^3] = 2,
+    }
+};
 ```
 
 ## Primary constructors (C# 12+)
@@ -1616,6 +1857,28 @@ When designing class hierarchies, consider these guidelines:
 - Use sealed classes for security-sensitive code or to prevent unintended inheritance
 - Implement interfaces for defining capabilities that can be shared across unrelated classes
 
+## User Defined Compound Assignment Operators (C# 14+)
+
+You can now define a custom implementation for a compound assignment operator (`+=`, `-=`, etc.) directly, instead of relying on the compiler to expand it from `+` plus assignment. This allows specialized behavior beyond "compute a new value and assign it."
+
+```csharp
+public readonly struct Money(decimal amount, string currency)
+{
+    public decimal Amount { get; } = amount;
+    public string Currency { get; } = currency;
+
+    public static Money operator +(Money left, Money right)
+    {
+        if (left.Currency != right.Currency)
+            throw new InvalidOperationException("Currencies must match");
+        return new Money(left.Amount + right.Amount, left.Currency);
+    }
+
+    // Custom compound assignment - avoids allocating an intermediate Money
+    public static Money operator +=(Money left, Money right) => left + right;
+}
+```
+
 **Additional resources:**
 
 - [Classes and objects (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/classes-and-objects)
@@ -1690,6 +1953,19 @@ Array.Sort(numbers);                              // Sort array in-place
 Array.Reverse(numbers);                           // Reverse array in-place
 int index = Array.IndexOf(names, "Bob");          // Find index of element
 bool exists = Array.Exists(numbers, n => n > 10); // Check if condition exists
+```
+
+## Implicit Span Conversions (C# 14+)
+
+C# 14 adds first-class implicit conversions between arrays, `Span<T>`, and `ReadOnlySpan<T>`, so you can pass an array where a span is expected without an explicit conversion call.
+
+```csharp
+void ProcessData(Span<byte> data) { /* ... */ }
+
+byte[] array = new byte[100];
+ProcessData(array); // Implicit conversion from array to Span<T>
+
+ReadOnlySpan<byte> readOnly = array; // Implicit conversion
 ```
 
 ## Lists
@@ -2640,6 +2916,19 @@ global using System.Threading.Tasks;
 4. Use static imports sparingly and only for frequently used static members
 5. Consider using aliases to improve readability or avoid ambiguity
 
+### File Based Apps (C# 14+)
+
+New preprocessor directives (`#:sdk`, `#:package`) let a single `.cs` file declare its own SDK and NuGet package references, so it can run directly without a `.csproj` project file.
+
+```csharp
+#:sdk Microsoft.NET.Sdk
+#:package Humanizer@2.14.1
+
+Console.WriteLine(1337.ToWords());
+```
+
+Run it with `dotnet run app.cs`. Use `dotnet project convert` to scaffold a full project later if the app grows beyond a single file.
+
 ## File-scoped types (C# 11+)
 
 File-scoped types are accessible only within the file where they're defined, allowing you to create helper classes, interfaces, or enums that are truly private to their implementation file. This reduces the public API surface and prevents accidental usage.
@@ -2712,6 +3001,53 @@ public partial class Customer
     {
         // Validation logic
         return !string.IsNullOrEmpty(Name);
+    }
+}
+```
+
+### Partial Properties and Indexers (C# 13+)
+
+Properties and indexers can now be split into a *declaring declaration* (no body) and an *implementing declaration*, just like partial methods. An auto-property body can't be used for the implementing declaration.
+
+```csharp
+// File: Document.cs
+public partial class Document
+{
+    public partial string Title { get; }
+}
+
+// File: Document.Generated.cs
+public partial class Document
+{
+    private string _title = "Untitled";
+    public partial string Title => _title;
+}
+```
+
+### Partial Events and Constructors (C# 14+)
+
+Events and instance constructors can be split across partial declarations too. Each needs exactly one defining declaration and one implementing declaration; only the implementing declaration of a constructor may use a `this()`/`base()` initializer.
+
+```csharp
+// File: Widget.cs - defining declaration
+public partial class Widget
+{
+    public partial Widget(string name);
+    public partial event EventHandler Updated;
+}
+
+// File: Widget.Generated.cs - implementing declaration
+public partial class Widget
+{
+    private readonly string _name;
+    private EventHandler _updated;
+
+    public partial Widget(string name) => _name = name;
+
+    public partial event EventHandler Updated
+    {
+        add => _updated += value;
+        remove => _updated -= value;
     }
 }
 ```
@@ -2789,6 +3125,22 @@ public class PropertyDemo
             "last" => _data[^1],                               // The “Hat” Operator (^) is used as a prefix to count indexes starting from the end of a list.
             _ => throw new ArgumentException("Invalid key")
         };
+    }
+}
+```
+
+### Field Keyword (C# 14+)
+
+The `field` contextual keyword accesses the compiler-synthesized backing field of a property, so you can add logic to one accessor without declaring an explicit backing field. It was introduced as a preview feature in C# 13 and became stable in C# 14.
+
+```csharp
+public class Person
+{
+    // No explicit backing field needed
+    public string Name
+    {
+        get;
+        set => field = value ?? throw new ArgumentNullException(nameof(value));
     }
 }
 ```

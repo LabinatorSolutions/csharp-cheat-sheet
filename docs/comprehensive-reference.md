@@ -2,7 +2,7 @@
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
 
-> Comprehensive guide covering all C# features through version 14
+> Comprehensive guide covering all C# features through version 14, plus a preview look at C# 15 (not yet released)
 
 ## Table of Contents
 
@@ -13,26 +13,28 @@
 5. [Strings and Text Handling](#5-strings-and-text-handling)
 6. [Control Flow](#6-control-flow)
 7. [Methods and Functions](#7-methods-and-functions)
-8. [Object-Oriented Programming](#8-object-oriented-programming)
+8. [Classes and Objects](#8-classes-and-objects)
 9. [Structs and Records](#9-structs-and-records)
-10. [Interfaces](#10-interfaces)
-11. [Enums and Flags](#11-enums-and-flags)
-12. [Collections and Data Structures](#12-collections-and-data-structures)
-13. [Generics](#13-generics)
-14. [Delegates and Events](#14-delegates-and-events)
-15. [LINQ (Language Integrated Query)](#15-linq-language-integrated-query)
-16. [Advanced Pattern Matching](#16-advanced-pattern-matching)
+10. [Enums and Flags](#10-enums-and-flags)
+11. [Generics](#11-generics)
+12. [Collections](#12-collections)
+13. [LINQ (Language Integrated Query)](#13-linq-language-integrated-query)
+14. [Error Handling](#14-error-handling)
+15. [Resource Management](#15-resource-management)
+16. [File I/O](#16-file-io)
 17. [Asynchronous Programming](#17-asynchronous-programming)
-18. [Resource Management](#18-resource-management)
-19. [Reflection and Metadata](#19-reflection-and-metadata)
-20. [Interoperability](#20-interoperability)
-21. [Code Organization](#21-code-organization)
-22. [Advanced Language Features](#22-advanced-language-features)
-23. [C# 11-15 Feature Highlights](#23-c-11-15-feature-highlights)
-24. [Performance Optimization](#24-performance-optimization)
-25. [Best Practices and Coding Conventions](#25-best-practices-and-coding-conventions)
-26. [Tooling and Ecosystem](#26-tooling-and-ecosystem)
-27. [Resources and Further Learning](#27-resources-and-further-learning)
+18. [Reflection and Metadata](#18-reflection-and-metadata)
+19. [Serialization](#19-serialization)
+20. [Regular Expressions](#20-regular-expressions)
+21. [Networking](#21-networking)
+22. [Interoperability](#22-interoperability)
+23. [Code Organization](#23-code-organization)
+24. [Advanced Language Features](#24-advanced-language-features)
+25. [C# 11-15 Feature Highlights](#25-c-11-15-feature-highlights)
+26. [Performance Optimization](#26-performance-optimization)
+27. [Best Practices and Coding Conventions](#27-best-practices-and-coding-conventions)
+28. [Tooling and Ecosystem](#28-tooling-and-ecosystem)
+29. [Resources and Further Learning](#29-resources-and-further-learning)
 
 # 1. Introduction to C#
 
@@ -69,7 +71,7 @@ C# has evolved significantly since its initial release, with each version introd
 | C# 12.0    | 2023      | .NET 8         | Primary constructors, collection expressions, inline arrays, ref readonly parameters            |
 | C# 13.0    | 2024      | .NET 9         | Params collections, ref struct interfaces, partial properties, field keyword (preview)          |
 | C# 14.0    | 2025      | .NET 10        | Extension members, null-conditional assignment, field keyword, user-defined compound assignment |
-| C# 15.0    | 2026      | .NET 11        | Collection expression arguments                                                                 |
+| C# 15.0    | _Preview_ | .NET 11 (preview) | **Not yet released** (expected ~Nov 2026) — preview features: collection expression arguments, union types, closed hierarchies |
 
 ## C# and the .NET Platform
 
@@ -277,6 +279,19 @@ Console.WriteLine($"Version: {config.Version}");
 - All top-level statements must precede any type or namespace declarations in the file
 - The compiler automatically generates a class and Main method behind the scenes
 - The `args` parameter is automatically available for command-line arguments
+
+### File-Based Apps (C# 14+)
+
+C# 14 introduces new preprocessor directives (`#:sdk`, `#:package`, and others) that let a single `.cs` file declare its own SDK and package references, so top-level statements can be run directly without a `.csproj` project file:
+
+```csharp
+#:sdk Microsoft.NET.Sdk
+#:package Humanizer@2.14.1
+
+Console.WriteLine(1337.ToWords());
+```
+
+Run it with `dotnet run app.cs`. This lowers the barrier for scripts and small tools; when a file-based app grows into something larger, `dotnet project convert` scaffolds a full project from it.
 
 ## Basic Syntax
 
@@ -5502,7 +5517,189 @@ void CompareTypes()
 - [C# Value Types (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types)
 - [C# Reference Types (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types)
 
-# 10. Generics
+# 10. Enums and Flags
+
+An `enum` (enumeration) is a value type that defines a set of named integral constants. Enums make code more readable and self-documenting by replacing "magic numbers" with meaningful names, and they give the compiler a chance to catch invalid values at compile time.
+
+## Basic Enum Declaration
+
+```csharp
+public enum DayOfWeek
+{
+    Sunday,    // 0
+    Monday,    // 1
+    Tuesday,   // 2
+    Wednesday, // 3
+    Thursday,  // 4
+    Friday,    // 5
+    Saturday   // 6
+}
+
+// Usage
+DayOfWeek today = DayOfWeek.Wednesday;
+Console.WriteLine(today);          // Output: Wednesday
+Console.WriteLine((int)today);     // Output: 3
+```
+
+By default, the first member is assigned the value `0`, and each subsequent member is incremented by 1. You can override any or all of the values explicitly:
+
+```csharp
+public enum HttpStatusCode
+{
+    Ok = 200,
+    Created = 201,
+    NotFound = 404,
+    InternalServerError = 500
+}
+```
+
+### Underlying Type
+
+Enums are backed by an integral numeric type — `int` by default, but any of `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, or `ulong` can be specified explicitly. Choosing a smaller type reduces memory footprint for large arrays of enum values.
+
+```csharp
+public enum Suit : byte
+{
+    Clubs,
+    Diamonds,
+    Hearts,
+    Spades
+}
+```
+
+## Converting Between Enums and Their Underlying Type
+
+```csharp
+// Enum to underlying type
+int value = (int)DayOfWeek.Friday;   // 5
+
+// Underlying type to enum (unchecked — no validation)
+DayOfWeek day = (DayOfWeek)5;        // Friday
+
+// String to enum, safely
+if (Enum.TryParse<DayOfWeek>("Monday", out DayOfWeek parsed))
+{
+    Console.WriteLine(parsed); // Monday
+}
+
+// String to enum, case-insensitive
+Enum.TryParse<DayOfWeek>("monday", ignoreCase: true, out DayOfWeek ciParsed);
+
+// Enum to string
+string name = DayOfWeek.Tuesday.ToString(); // "Tuesday"
+```
+
+`(DayOfWeek)5` compiles and runs even though `5` isn't a valid `DayOfWeek` member if you'd only defined 0-3 — enum casts are **not range-checked** by default. Use `Enum.IsDefined` when a value's validity actually matters (e.g. it arrived from user input, a database, or deserialized JSON):
+
+```csharp
+if (!Enum.IsDefined(typeof(DayOfWeek), inputValue))
+{
+    throw new ArgumentOutOfRangeException(nameof(inputValue));
+}
+```
+
+## Reflecting Over Enum Members
+
+```csharp
+// All values
+foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+{
+    Console.WriteLine(day);
+}
+
+// All names
+foreach (string name in Enum.GetNames<DayOfWeek>())
+{
+    Console.WriteLine(name);
+}
+```
+
+## Pattern Matching with Enums
+
+Switch expressions (C# 8+) pair naturally with enums, and the compiler warns if a switch expression doesn't handle every member:
+
+```csharp
+string GetDayType(DayOfWeek day) => day switch
+{
+    DayOfWeek.Saturday or DayOfWeek.Sunday => "Weekend",
+    _ => "Weekday"
+};
+```
+
+## The `[Flags]` Attribute
+
+By default, an enum represents a single value from a fixed set. When a variable needs to represent a *combination* of values simultaneously (e.g. file permissions, feature toggles), mark the enum with `[Flags]` and give each member a distinct power-of-two value so the bit patterns don't overlap:
+
+```csharp
+[Flags]
+public enum FilePermissions
+{
+    None    = 0,
+    Read    = 1 << 0, // 1
+    Write   = 1 << 1, // 2
+    Execute = 1 << 2, // 4
+    Delete  = 1 << 3, // 8
+    All     = Read | Write | Execute | Delete // 15
+}
+```
+
+### Combining and Testing Flags
+
+```csharp
+// Combine with bitwise OR
+FilePermissions perms = FilePermissions.Read | FilePermissions.Write;
+
+// Add a flag
+perms |= FilePermissions.Execute;
+
+// Remove a flag
+perms &= ~FilePermissions.Execute;
+
+// Test for a single flag — fast, preferred for hot paths
+bool canRead = (perms & FilePermissions.Read) == FilePermissions.Read;
+
+// Test for a single flag — more readable, but boxes the enum (allocates) on every call
+bool canWrite = perms.HasFlag(FilePermissions.Write);
+```
+
+`HasFlag` is convenient and safe for multi-bit flag values (it doesn't have the `== value` pitfall bitwise AND has when checking a combined flag), but it boxes both operands on every call. In performance-sensitive code — tight loops, hot paths — prefer the direct bitwise check.
+
+`[Flags]` also changes how `ToString()` renders a combined value — instead of falling back to the raw integer, it prints the matching flag names joined by commas:
+
+```csharp
+Console.WriteLine(perms); // "Read, Write" instead of "3"
+```
+
+## Enum Methods via Extension Methods
+
+Enums can't declare instance methods directly, but extension methods give them method-like syntax:
+
+```csharp
+public static class DayOfWeekExtensions
+{
+    public static bool IsWeekend(this DayOfWeek day) =>
+        day is DayOfWeek.Saturday or DayOfWeek.Sunday;
+}
+
+// Usage
+bool isWeekend = DayOfWeek.Saturday.IsWeekend(); // true
+```
+
+## Best Practices
+
+- Give a `[Flags]` enum an explicit `None = 0` member — every flags enum has an implicit "nothing selected" state, and naming it makes intent clear.
+- Assign explicit values to `[Flags]` members rather than relying on auto-increment — auto-increment produces sequential values (0, 1, 2, 3...) which don't form valid independent bit flags past the second member.
+- Avoid enums for values that will keep growing indefinitely (e.g. a list of countries) — a lookup table or database-backed reference is usually a better fit.
+- Don't use `Enum.IsDefined` in hot paths — it uses reflection internally and is relatively slow; validate once at the boundary (e.g. deserialization) rather than on every use.
+
+## Resources
+
+- [Enumeration Types (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum)
+- [Enum Class (System Namespace)](https://learn.microsoft.com/en-us/dotnet/api/system.enum)
+- [FlagsAttribute Class](https://learn.microsoft.com/en-us/dotnet/api/system.flagsattribute)
+- [Design Guidelines for Flag Enums](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/enum)
+
+# 11. Generics
 
 Generics allow you to define type-safe data structures and algorithms without committing to specific data types.
 
@@ -6479,7 +6676,7 @@ foreach (KeyValuePair<string, int> pair in concurrentDict)
 - [Covariance and Contravariance (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/)
 - [Generic Constraints (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters)
 
-# 11. Collections
+# 12. Collections
 
 C# provides a rich set of collection types for storing and manipulating groups of related objects.
 
@@ -7788,7 +7985,7 @@ public class CustomDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 - [Concurrent Collections (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/collections/thread-safe/)
 - [Immutable Collections (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/collections/immutable-collections)
 
-# 12. LINQ (Language Integrated Query)
+# 13. LINQ (Language Integrated Query)
 
 LINQ (Language Integrated Query) provides a consistent syntax for querying data from different sources, such as collections, databases, XML, and more.
 
@@ -8615,7 +8812,7 @@ var doubled = Map(numbers, n => n * 2);
 - [LINQ Standard Query Operators (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/standard-query-operators-overview)
 - [LINQ to Entities (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/linq-to-entities)
 
-# 13. Error Handling
+# 14. Error Handling
 
 Error handling is a critical aspect of writing robust C# applications. C# provides several mechanisms for handling errors and exceptional situations.
 
@@ -9482,7 +9679,170 @@ public void SaveData(Data data)
 - [Creating and Throwing Exceptions (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-and-throw-exceptions)
 - [Exception Handling in Async Methods (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/handling-and-throwing-exceptions-in-async-methods)
 
-# 14. File I/O
+# 15. Resource Management
+
+Many objects — file handles, network sockets, database connections, unmanaged memory — hold resources that the garbage collector doesn't know how to release. .NET's `IDisposable` pattern gives these types a deterministic, explicit way to release those resources instead of waiting on an unpredictable finalizer pass.
+
+## The `IDisposable` Interface
+
+```csharp
+public interface IDisposable
+{
+    void Dispose();
+}
+```
+
+Any type that owns an unmanaged or scarce resource should implement `IDisposable` and release that resource in `Dispose()`.
+
+```csharp
+public class SimpleFileLogger : IDisposable
+{
+    private readonly StreamWriter _writer;
+
+    public SimpleFileLogger(string path) => _writer = new StreamWriter(path);
+
+    public void Log(string message) => _writer.WriteLine(message);
+
+    public void Dispose() => _writer.Dispose();
+}
+```
+
+## The `using` Statement
+
+Calling `Dispose()` manually is error-prone — an exception thrown between construction and disposal leaks the resource. The `using` statement wraps a block in a `try`/`finally` and guarantees `Dispose()` runs even if the block throws:
+
+```csharp
+using (var logger = new SimpleFileLogger("app.log"))
+{
+    logger.Log("Application started");
+} // Dispose() is called here, even if Log() threw
+```
+
+This is exactly equivalent to:
+
+```csharp
+var logger = new SimpleFileLogger("app.log");
+try
+{
+    logger.Log("Application started");
+}
+finally
+{
+    logger.Dispose();
+}
+```
+
+### `using` Declarations (C# 8+)
+
+A `using` declaration disposes the resource at the end of the *enclosing scope* (the containing block or method) instead of requiring an explicit block, reducing nesting:
+
+```csharp
+void ProcessFile(string path)
+{
+    using var reader = new StreamReader(path);
+    string firstLine = reader.ReadLine();
+    Console.WriteLine(firstLine);
+} // reader.Dispose() is called here, at the end of the method
+```
+
+### Multiple Resources
+
+```csharp
+using var source = new FileStream("input.txt", FileMode.Open);
+using var destination = new FileStream("output.txt", FileMode.Create);
+source.CopyTo(destination);
+// Both disposed, in reverse declaration order, at the end of scope
+```
+
+## `IAsyncDisposable` and `await using` (C# 8+)
+
+Some resources need to release asynchronously — flushing a network stream or closing a database connection, for example. `IAsyncDisposable` mirrors `IDisposable` with an async signature:
+
+```csharp
+public interface IAsyncDisposable
+{
+    ValueTask DisposeAsync();
+}
+```
+
+```csharp
+public class AsyncResource : IAsyncDisposable
+{
+    public async ValueTask DisposeAsync()
+    {
+        await Task.Delay(10); // simulate async cleanup, e.g. flushing a buffer
+        Console.WriteLine("Disposed asynchronously");
+    }
+}
+
+await using var resource = new AsyncResource();
+// DisposeAsync() is awaited at the end of scope
+```
+
+## Implementing the Full Dispose Pattern
+
+The examples above are enough for types that only hold *managed* resources (other `IDisposable` objects). A type that directly owns an *unmanaged* resource (a raw handle, unmanaged memory) should implement the full Dispose pattern, which also protects against double-disposal and provides a finalizer as a safety net if `Dispose()` is never called:
+
+```csharp
+public class ResourceHolder : IDisposable
+{
+    private bool _disposed;
+    private IntPtr _unmanagedHandle; // example unmanaged resource
+    private readonly StreamWriter? _managedResource;
+
+    public ResourceHolder(string path)
+    {
+        _managedResource = new StreamWriter(path);
+        _unmanagedHandle = AllocateHandle();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this); // the finalizer is no longer needed once Dispose ran
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            // Release managed resources
+            _managedResource?.Dispose();
+        }
+
+        // Release unmanaged resources (always, regardless of `disposing`)
+        ReleaseHandle(_unmanagedHandle);
+        _disposed = true;
+    }
+
+    ~ResourceHolder() => Dispose(false); // finalizer: safety net if Dispose() was never called
+
+    private static IntPtr AllocateHandle() => IntPtr.Zero; // placeholder
+    private static void ReleaseHandle(IntPtr handle) { /* placeholder */ }
+}
+```
+
+The `disposing` parameter distinguishes two call paths: `disposing: true` means `Dispose()` was called explicitly, so it's safe to touch other managed objects; `disposing: false` means the finalizer is running, at which point other managed objects may already have been collected and must not be touched — only unmanaged cleanup is safe there.
+
+## Best Practices
+
+- Always prefer a `using` statement/declaration over calling `Dispose()` manually — it's exception-safe by construction.
+- Guard against double-disposal (calling `Dispose()` more than once should be a no-op, not throw) — the `_disposed` flag pattern above handles this.
+- Don't implement a finalizer unless the type directly owns an unmanaged resource — finalizers add GC overhead (an extra collection pass) even for objects that are otherwise ready to be collected immediately.
+- Be cautious `using`-wrapping types like `HttpClient` per-request — `HttpClient` is designed to be created once and reused (or managed via `IHttpClientFactory`); disposing and recreating it per call can exhaust OS sockets under load.
+- After `Dispose()` runs, further use of the object should throw `ObjectDisposedException` rather than fail silently or corrupt state — guard public members with the `_disposed` check where it matters.
+
+## Resources
+
+- [IDisposable Interface](https://learn.microsoft.com/en-us/dotnet/api/system.idisposable)
+- [Implementing a Dispose Method](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose)
+- [using statement (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/using)
+- [IAsyncDisposable Interface](https://learn.microsoft.com/en-us/dotnet/api/system.iasyncdisposable)
+- [Implement a DisposeAsync method](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync)
+
+# 16. File I/O
 
 File I/O (Input/Output) operations are essential for reading from and writing to files in C#. The .NET Framework provides a rich set of classes for working with files and directories.
 
@@ -10598,7 +10958,7 @@ public string GetUniqueFileName(string directory, string fileName)
 - [FileStream Class (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream)
 - [Asynchronous File I/O (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/io/asynchronous-file-i-o)
 
-# 15. Asynchronous Programming
+# 17. Asynchronous Programming
 
 Asynchronous programming in C# allows you to write non-blocking code that can improve the responsiveness and scalability of your applications. The async/await pattern introduced in C# 5.0 makes asynchronous programming much more accessible.
 
@@ -11851,7 +12211,7 @@ public async Task ConsumeAsyncStreamAsync()
 - [Asynchronous Streams (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/async-streams)
 - [Parallel Programming (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/)
 
-# 16. Reflection and Metadata
+# 18. Reflection and Metadata
 
 Reflection in C# allows you to inspect and manipulate types, methods, fields, and other members at runtime. It's a powerful feature for creating dynamic and flexible applications, though it should be used judiciously due to performance considerations.
 
@@ -12743,7 +13103,7 @@ public void SafeReflection()
 - [Dynamic Language Runtime Overview (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/dynamic-language-runtime-overview)
 - [Expression Trees (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/expression-trees/)
 
-# 17. Serialization
+# 19. Serialization
 
 Serialization is the process of converting objects into a format that can be stored or transmitted, while deserialization is the reverse process. C# provides several serialization mechanisms for different formats and use cases.
 
@@ -14248,7 +14608,7 @@ public class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IDisposable
 - [Data Contract Serialization (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/framework/wcf/feature-details/data-contract-serialization)
 - [Protocol Buffers (Google Developers)](https://developers.google.com/protocol-buffers)
 
-# 18. Regular Expressions
+# 20. Regular Expressions
 
 Regular expressions (regex) provide a powerful way to search, match, and manipulate text based on patterns. C# supports regular expressions through the `System.Text.RegularExpressions` namespace.
 
@@ -15333,7 +15693,7 @@ public static class TransformationPatterns
 - [Best Practices for Regular Expressions in .NET (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices)
 - [Regular Expression Options (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options)
 
-# 19. Networking
+# 21. Networking
 
 Networking in C# allows you to create applications that communicate over networks, from simple HTTP requests to complex client-server architectures. The .NET Framework provides a rich set of classes for various networking tasks.
 
@@ -16981,7 +17341,7 @@ public void CertificateManagementExamples()
 - [WebSockets in ASP.NET Core (Microsoft Docs)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/websockets)
 - [Network Programming in .NET (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/framework/network-programming/)
 
-# 20. Interoperability
+# 22. Interoperability
 
 Interoperability allows C# code to interact with code written in other languages or platforms. This is essential when working with legacy systems, platform-specific APIs, or non-.NET libraries.
 
@@ -17369,7 +17729,7 @@ Non-blittable types require marshaling:
 - [Marshaling (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/framework/interop/marshaling-data-with-platform-invoke)
 - [P/Invoke.net Wiki](https://www.pinvoke.net/) - Community-maintained P/Invoke signatures
 
-# 21. Code Organization
+# 23. Code Organization
 
 Proper code organization is essential for maintainability, readability, and collaboration. C# provides several mechanisms to structure and organize your code effectively.
 
@@ -17600,9 +17960,9 @@ partial class Document
 }
 ```
 
-### Partial Events (C# 14+)
+### Partial Events and Constructors (C# 14+)
 
-C# 14 introduced partial events:
+C# 14 introduced partial events and partial instance constructors. Each must have exactly one *defining declaration* and one *implementing declaration*.
 
 ```csharp
 // In File1.cs
@@ -17620,8 +17980,33 @@ partial class DataProcessor
 // In File2.cs
 partial class DataProcessor
 {
-    // Implement the event
-    public partial event EventHandler<DataProcessedEventArgs> DataProcessed;
+    // Implement the event (must include add/remove accessors)
+    public partial event EventHandler<DataProcessedEventArgs> DataProcessed
+    {
+        add => _handler += value;
+        remove => _handler -= value;
+    }
+}
+```
+
+Partial constructors follow the same declaring/implementing pattern. Only the implementing declaration may include a `this()` or `base()` constructor initializer, and only one partial declaration of the type may use primary constructor syntax:
+
+```csharp
+// In File1.cs - defining declaration
+public partial class Widget
+{
+    public partial Widget(string name);
+}
+
+// In File2.cs - implementing declaration
+public partial class Widget
+{
+    private readonly string _name;
+
+    public partial Widget(string name)
+    {
+        _name = name;
+    }
 }
 ```
 
@@ -17732,7 +18117,7 @@ You can selectively expose internal types to specific assemblies:
 - [Partial Classes and Methods (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
 - [File-Scoped Namespaces (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/namespace#file-scoped-namespace-declaration)
 
-# 22. Advanced Language Features
+# 24. Advanced Language Features
 
 C# continues to evolve with powerful features that enhance productivity, code quality, and performance. This section covers advanced language features that may not fit neatly into other categories.
 
@@ -18247,7 +18632,7 @@ if (dictionary.TryGetValue("key", out var _))
 - [Records (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record)
 - [Pattern Matching (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns)
 
-# 23. C# 11-15 Feature Highlights
+# 25. C# 11-15 Feature Highlights
 
 C# continues to evolve with each new version, introducing features that make the language more expressive, safer, and more performant. This section highlights the key features introduced in C# versions 11 through 14.
 
@@ -18652,20 +19037,13 @@ The `field` keyword provides a way to create auto-implemented properties with di
 ```csharp
 public class Person
 {
-    // Creates a backing field with the same name
-    public string Name { get; set; } field;
-    
-    public void UpdateName(string newName)
+    // 'field' refers to the compiler-synthesized backing field —
+    // no explicit backing field needs to be declared
+    public string Name
     {
-        // Direct access to the backing field
-        if (field.Name != newName)
-        {
-            field.Name = newName;
-            OnNameChanged();
-        }
+        get;
+        set => field = value ?? throw new ArgumentNullException(nameof(value));
     }
-    
-    private void OnNameChanged() { }
 }
 ```
 
@@ -18682,6 +19060,51 @@ void Process(ref int value) { }
 int x = 10;
 Process(in x);  // Calls the 'in' version
 Process(ref x); // Calls the 'ref' version
+```
+
+### New Escape Sequence (`\e`)
+
+C# 13 adds `\e` as a character literal escape sequence for the ESCAPE character (`U+001B`). Previously you had to use a Unicode escape sequence, or the error-prone `\x1b` (which could swallow following hex digits into the escape):
+
+```csharp
+char escapeChar = '\e'; // U+001B, ESCAPE
+
+// Common use: ANSI escape codes for colored console output
+Console.WriteLine($"\e[31mThis text is red\e[0m");
+```
+
+### Method Group Natural Type Improvements
+
+The compiler now prunes inapplicable candidate methods (wrong arity, unsatisfied constraints) scope-by-scope when determining a method group's natural type, instead of building the full candidate set across all scopes up front. This more closely matches normal overload resolution and can change which natural type (if any) a method group has in edge cases involving overloaded generic methods:
+
+```csharp
+class Repository
+{
+    public void Save(int id) { }
+    public void Save<T>(T item) where T : class { }
+}
+
+var repo = new Repository();
+// The compiler only considers applicable overloads at each scope when
+// inferring a natural delegate type for the method group below.
+Action<int> saveAction = repo.Save;
+```
+
+### `ref struct` as a Generic Type Argument (`allows ref struct`)
+
+A generic type parameter can opt in to accepting `ref struct` types (like `Span<T>`) via the `allows ref struct` constraint. Without it, `ref struct` types still cannot be used as type arguments:
+
+```csharp
+// The 'allows ref struct' anti-constraint lets T be a ref struct, such as Span<int>
+void ProcessValue<T>(T value) where T : allows ref struct
+{
+    // Because T might be a ref struct, it can't be boxed, used in async
+    // methods, or captured by lambdas/local functions here.
+    Console.WriteLine(value?.ToString() ?? "ref struct value");
+}
+
+Span<int> numbers = stackalloc int[] { 1, 2, 3 };
+ProcessValue(numbers); // Works because of 'allows ref struct'
 ```
 
 ## C# 14 Features
@@ -18746,15 +19169,15 @@ public class Counter
         }
     }
     
-    // With field keyword
+    // With field keyword - no explicit backing field needed
     public int Count2
     {
-        get => field.Count2;
+        get => field;
         set
         {
             if (value < 0)
                 throw new ArgumentException("Count cannot be negative");
-            field.Count2 = value;
+            field = value;
         }
     }
 }
@@ -18794,9 +19217,9 @@ Money wallet = new Money(100, "USD");
 wallet += new Money(50, "USD"); // wallet now contains 150 USD
 ```
 
-### Partial Events
+### Partial Events and Constructors
 
-Events can now be split across partial class declarations:
+Events and instance constructors can now be split across partial class declarations, following the same declaring/implementing pattern as partial methods (see [Partial Events and Constructors](#partial-events-and-constructors-c-14) in Section 21 for the full rules):
 
 ```csharp
 // In File1.cs
@@ -18814,8 +19237,30 @@ partial class DataProcessor
 // In File2.cs
 partial class DataProcessor
 {
-    // Implement the event
-    public partial event EventHandler<DataProcessedEventArgs> DataProcessed;
+    // Implement the event (implementing declaration needs add/remove accessors)
+    public partial event EventHandler<DataProcessedEventArgs> DataProcessed
+    {
+        add => _handler += value;
+        remove => _handler -= value;
+    }
+}
+
+// Partial constructors follow the same pattern:
+// In File1.cs - defining declaration
+partial class DataProcessor
+{
+    public partial DataProcessor(string sourceName);
+}
+
+// In File2.cs - implementing declaration
+partial class DataProcessor
+{
+    private readonly string _sourceName;
+
+    public partial DataProcessor(string sourceName)
+    {
+        _sourceName = sourceName;
+    }
 }
 ```
 
@@ -18834,11 +19279,44 @@ ProcessData(array); // Implicit conversion from array to Span<T>
 ReadOnlySpan<byte> readOnly = array; // Implicit conversion
 ```
 
-## C# 15 Features
+### Modifiers on Simple Lambda Parameters
 
-C# 15 was released in 2026 with .NET 11 and introduced Collection expression arguments.
+You can now add parameter modifiers (`scoped`, `ref`, `in`, `out`, `ref readonly`) to lambda parameters without also specifying an explicit type:
 
-### Collection Expression Arguments
+```csharp
+delegate bool TryParse<T>(string text, out T result);
+
+// C# 14: modifier without an explicit parameter type
+TryParse<int> parse = (text, out result) => int.TryParse(text, out result);
+
+// Before C# 14, adding a modifier required explicit types on every parameter:
+TryParse<int> parseOld = (string text, out int result) => int.TryParse(text, out result);
+```
+
+The `params` modifier still requires an explicitly typed parameter list.
+
+### File-Based Apps Preprocessor Directives
+
+C# 14 adds new preprocessor directives so a single `.cs` file can declare its own SDK and NuGet package references, enabling `dotnet run app.cs` without a project file:
+
+```csharp
+#:sdk Microsoft.NET.Sdk
+#:package Humanizer@2.14.1
+
+Console.WriteLine(1337.ToWords());
+```
+
+Run it directly with `dotnet run app.cs` - no `.csproj` needed. This is intended for scripts, prototypes, and small tools; `dotnet project convert` can turn a file-based app into a full project later.
+
+### `nameof` with Unbound Generic Types
+
+C# 14 also lets `nameof` accept an unbound generic type, e.g. `nameof(List<>)` evaluates to `"List"`. See [Nameof Operator](#nameof-operator-c-6) in Section 4 for the full example.
+
+## C# 15 Features (Preview — Not Yet Released)
+
+**C# 15 has not shipped.** It is expected to release with .NET 11 around November 2026, and as of this writing it is only available as a preview via the .NET 11 preview SDK or Visual Studio 2026 Insiders. The features below are documented by Microsoft's official "What's new in C# 15" preview page, but are subject to change before final release — treat all syntax here as provisional, not something you can rely on in shipping code yet.
+
+### Collection Expression Arguments (Preview)
 
 You can pass arguments to the underlying collection's constructor or factory method by using a `with(...)` element as the first element in a collection expression. This feature enables you to specify capacity, comparers, or other constructor parameters directly within the collection expression syntax.
 
@@ -18851,6 +19329,47 @@ List<string> names = [with(capacity: values.Length * 2), .. values];
 HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO", "hello"];
 ```
 
+### Union Types (Preview)
+
+A `union` declares that a value is exactly one of a fixed set of case types, with the compiler enforcing exhaustive `switch` matching:
+
+```csharp
+public record class Cat(string Name);
+public record class Dog(string Name);
+public record class Bird(string Name);
+
+public union Pet(Cat, Dog, Bird);
+
+Pet pet = new Dog("Rex");
+string name = pet switch
+{
+    Dog d => d.Name,
+    Cat c => c.Name,
+    Bird b => b.Name,
+};
+```
+
+### Closed Hierarchies (Preview)
+
+The `closed` modifier fixes a class's set of direct descendants at compile time (within the declaring assembly), enabling exhaustive `switch` checks without a `default` arm:
+
+```csharp
+public closed record class GateState;
+public record class Closed : GateState;
+public record class Open(float Percent) : GateState;
+
+string Describe(GateState state) => state switch
+{
+    Closed => "closed",
+    Open(var percent) => $"{percent}% open",
+    // No warning: every direct descendant of 'GateState' is handled.
+};
+```
+
+### Memory Safety (Preview)
+
+C# 15 begins a multi-release effort to tie `unsafe` requirements to the operations that actually touch unmanaged memory rather than to the mere existence of pointer types. Under the `preview` language version, pointer declarations, `&`, `fixed`, `stackalloc`-to-pointer conversions, and `sizeof` on unmanaged types no longer require an `unsafe` context on their own.
+
 ## Resources
 
 - [What's new in C# 11](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11)
@@ -18860,7 +19379,7 @@ HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO",
 - [What's new in C# 15](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15)
 - [C# Language Versioning](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version)
 
-# 24. Performance Optimization
+# 26. Performance Optimization
 
 Performance optimization is crucial for creating responsive, efficient applications. C# provides several features and techniques to help you write high-performance code.
 
@@ -19367,7 +19886,7 @@ ConcurrentDictionary<string, int> concurrentCounts = new ConcurrentDictionary<st
 - [BenchmarkDotNet](https://benchmarkdotnet.org/)
 - [ArrayPool<T> (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1)
 
-# 25. Best Practices and Coding Conventions
+# 27. Best Practices and Coding Conventions
 
 Following consistent coding conventions and best practices makes your code more readable, maintainable, and less prone to bugs. This section covers the recommended practices for C# development.
 
@@ -20213,7 +20732,7 @@ public class NotificationService
 - [C# Style Guide (Google)](https://google.github.io/styleguide/csharp-style.html)
 - [Security Best Practices (Microsoft Docs)](https://learn.microsoft.com/en-us/dotnet/standard/security/security-best-practices)
 
-# 26. Tooling and Ecosystem
+# 28. Tooling and Ecosystem
 
 The .NET ecosystem provides a rich set of tools and libraries to help you develop, test, and deploy C# applications. This section covers the essential tools and components of the .NET ecosystem.
 
@@ -20898,7 +21417,7 @@ kubectl apply -f kubernetes-deployment.yaml
 - [Docker with .NET](https://learn.microsoft.com/en-us/dotnet/core/docker/introduction)
 - [GitHub Actions for .NET](https://learn.microsoft.com/en-us/dotnet/devops/github-actions-overview)
 
-# 27. Resources and Further Learning
+# 29. Resources and Further Learning
 
 This section provides a curated list of high-quality resources to deepen your understanding of C# and the .NET ecosystem. Whether you're a beginner or an experienced developer, these resources will help you continue your learning journey.
 

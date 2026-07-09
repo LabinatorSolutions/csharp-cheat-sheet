@@ -2,7 +2,7 @@
 
 > By [ConstructG.com](https://constructg.com) – The Ultimate C# Learning Platform (Covers DSA, Avalonia UI, and Unity)
 
-> Covering C# 15+
+> Covering C# 1 through 14, plus a preview of unreleased C# 15 features
 
 ---
 
@@ -67,7 +67,7 @@
     - [**C# 12 (Released with .NET 8)**](#c-12-released-with-net-8)
     - [**C# 13 (Released with .NET 9)**](#c-13-released-with-net-9)
     - [**C# 14 (Released with .NET 10)**](#c-14-released-with-net-10)
-    - [**C# 15 (Released with .NET 11)**](#c-15-released-with-net-11)
+    - [**C# 15 (Preview, Not Yet Released)**](#c-15-preview-not-yet-released)
   - [**10. Coding Style \& Best Practices**](#10-coding-style--best-practices)
     - [**Naming and Layout Conventions**](#naming-and-layout-conventions)
     - [**Performance Best Practices**](#performance-best-practices)
@@ -1717,8 +1717,9 @@ When multiple threads access the same data, you risk creating a **race condition
         }
 
         // --- THE CORRECT, THREAD-SAFE WAY ---
-        // C# 13+: Use the dedicated, high-performance lock object.
-        private lock _lockObject;
+        // C# 13+: The lock statement recognizes System.Threading.Lock and uses
+        // its more efficient locking API instead of the traditional Monitor-based one.
+        private readonly System.Threading.Lock _lockObject = new();
         // Before C# 13, the standard pattern was:
         // private readonly object _lockObject = new object();
         
@@ -1951,7 +1952,7 @@ Of course. Here are the final two modules, "What's New: C# 11–15 Highlights" a
 
 ## **9. What's New: C# 11–15 Highlights**
 
-C# is a language that evolves continuously. This section provides a high-level overview of the most impactful features introduced in recent versions, from C# 11 through the latest developments in C# 15. This is not an exhaustive list but covers the highlights you're most likely to use.
+C# is a language that evolves continuously. This section provides a high-level overview of the most impactful features introduced in recent versions, from C# 11 through the shipped C# 14, plus a preview look at the still-unreleased C# 15. This is not an exhaustive list but covers the highlights you're most likely to use.
 
 ### **C# 11 (Released with .NET 7)**
 
@@ -2023,9 +2024,9 @@ C# is a language that evolves continuously. This section provides a high-level o
 
 ### **C# 13 (Released with .NET 9)**
 
-*   **New `lock` Object:** You no longer need to allocate a dedicated `object` for locking. You can now declare a dedicated `lock` object, which is a lightweight, non-allocating synchronization primitive.
+*   **New `System.Threading.Lock` Type:** The .NET 9 runtime introduces a dedicated `Lock` type for thread synchronization. The `lock` *statement* recognizes when its target is a `Lock` object and automatically uses `Lock`'s more efficient API instead of the traditional `Monitor`-based one — no other code needs to change.
     ```csharp
-    private lock _myLock;
+    private readonly System.Threading.Lock _myLock = new();
     public void MyThreadSafeMethod()
     {
         lock (_myLock) { /* ... */ }
@@ -2044,6 +2045,22 @@ C# is a language that evolves continuously. This section provides a high-level o
     };
     ```
 *   **`ref` and `unsafe` in Iterators:** Iterators (`yield return`) can now be marked as `ref` or `unsafe`, enabling high-performance scenarios that work directly with memory buffers.
+*   **New `\e` Escape Sequence:** A character literal escape sequence for the ESCAPE character (`U+001B`), replacing the error-prone `\x1b` (which could swallow following hex digits) or a Unicode escape.
+    ```csharp
+    char escapeChar = '\e'; // U+001B, ESCAPE
+    Console.WriteLine($"\e[31mThis text is red\e[0m"); // ANSI color codes
+    ```
+*   **Method Group Natural Type Improvements:** The compiler now prunes inapplicable overload candidates scope-by-scope when inferring a method group's natural delegate type, instead of gathering every candidate across all scopes first. This more closely follows normal overload resolution.
+*   **`ref struct` as a Generic Type Argument (`allows ref struct`):** Ref structs (like `Span<T>`) can now be used as generic type arguments if the type parameter opts in with the `allows ref struct` anti-constraint.
+    ```csharp
+    void ProcessValue<T>(T value) where T : allows ref struct
+    {
+        // T might be a ref struct here, so it can't be boxed or captured by lambdas.
+    }
+
+    Span<int> numbers = stackalloc int[] { 1, 2, 3 };
+    ProcessValue(numbers); // Works because of 'allows ref struct'
+    ```
 
 ### **C# 14 (Released with .NET 10)**
 
@@ -2133,10 +2150,55 @@ C# is a language that evolves continuously. This section provides a high-level o
     position += new Vector2D(6, 8); // Uses the custom += operator
     // position is now (13, 24) instead of (16, 28)
     ```
+*   **Modifiers on Simple Lambda Parameters:** You can now add `scoped`, `ref`, `in`, `out`, or `ref readonly` to lambda parameters without also specifying an explicit type.
+    ```csharp
+    delegate bool TryParse<T>(string text, out T result);
 
-### **C# 15 (Released with .NET 11)**
+    // C# 14: no explicit type needed alongside the 'out' modifier
+    TryParse<int> parse = (text, out result) => int.TryParse(text, out result);
+    ```
+*   **Partial Events and Constructors:** Building on C# 13's partial properties, you can now declare `partial` instance constructors and events too. Each needs exactly one *defining declaration* and one *implementing declaration*.
+    ```csharp
+    // Defining declaration (e.g., in a source-generated file)
+    public partial class Widget
+    {
+        public partial Widget(string name);
+        public partial event EventHandler Updated;
+    }
 
-*   **Collection Expression Arguments:** You can pass arguments to the underlying collection's constructor or factory method by using a `with(...)` element as the first element in a collection expression. This enables specifying capacity or custom comparers directly in the initialization syntax.
+    // Implementing declaration
+    public partial class Widget
+    {
+        private readonly string _name;
+
+        public partial Widget(string name)
+        {
+            _name = name;
+        }
+
+        public partial event EventHandler Updated
+        {
+            add => _updated += value;
+            remove => _updated -= value;
+        }
+
+        private EventHandler _updated;
+    }
+    ```
+*   **File-Based Apps:** New preprocessor directives (`#:sdk`, `#:package`) let a single `.cs` file declare its own SDK and NuGet packages, so `dotnet run app.cs` works without a `.csproj`.
+    ```csharp
+    #:sdk Microsoft.NET.Sdk
+    #:package Humanizer@2.14.1
+
+    Console.WriteLine(1337.ToWords());
+    ```
+    Run with `dotnet run app.cs`. Use `dotnet project convert` to scaffold a full project later if the app grows.
+
+### **C# 15 (Preview, Not Yet Released)**
+
+**C# 15 has not shipped.** It's expected to release with .NET 11 around November 2026. As of this writing, these features are only available in preview via the .NET 11 preview SDK or Visual Studio 2026 Insiders, and are documented here based on Microsoft's official "What's new in C# 15" preview page — the syntax below may still change before final release.
+
+*   **Collection Expression Arguments (Preview):** You can pass arguments to the underlying collection's constructor or factory method by using a `with(...)` element as the first element in a collection expression. This enables specifying capacity or custom comparers directly in the initialization syntax.
     ```csharp
     string[] values = ["one", "two", "three"];
     
@@ -2147,6 +2209,16 @@ C# is a language that evolves continuously. This section provides a high-level o
     // set contains only one element because all strings are equal with OrdinalIgnoreCase
     HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO", "hello"];
     ```
+*   **Union Types (Preview):** A `union` declares a value that is exactly one of a fixed set of case types, with exhaustive `switch` matching enforced by the compiler.
+    ```csharp
+    public record class Cat(string Name);
+    public record class Dog(string Name);
+    public union Pet(Cat, Dog);
+
+    Pet pet = new Dog("Rex");
+    string name = pet switch { Dog d => d.Name, Cat c => c.Name };
+    ```
+*   **Closed Hierarchies (Preview):** The `closed` modifier fixes a class's direct descendants at compile time within the declaring assembly, enabling exhaustive `switch` checks with no `default` arm needed.
 
 ---
 
