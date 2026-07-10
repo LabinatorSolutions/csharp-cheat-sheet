@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "docusaurus-scaffold",
+      "name": "csharp-cheatsheet",
       "dependencies": {
         "@docusaurus/core": "3.10.1",
         "@docusaurus/faster": "3.10.1",
@@ -23,7 +23,7 @@
         "@docusaurus/tsconfig": "^3.10.1",
         "@docusaurus/types": "3.10.1",
         "rumdl": "^0.2.30",
-        "typescript": "5.9.3",
+        "typescript": "^5.9.3",
       },
     },
   },
