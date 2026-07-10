@@ -3,15 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "prebuild": "bun run lint:md",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "lint:md": "rumdl check docs/",
+    "format": "biome format --write .",
+    "health": "bun run lint && bun run lint:md"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
@@ -24,8 +29,10 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.3",
     "@docusaurus/module-type-aliases": "3.10.1",
-    "@docusaurus/types": "3.10.1"
+    "@docusaurus/types": "3.10.1",
+    "rumdl": "^0.2.30"
   },
   "browserslist": {
     "production": [

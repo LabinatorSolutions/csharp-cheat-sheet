@@ -1,0 +1,16 @@
+{
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!!static/img",
+      "!!static/fonts",
+      "!!**/node_modules",
+      "!!**/build",
+      "!!**/.docusaurus",
+      "!!bun.lock"
+    ]
+  },
+  "formatter": { "enabled": true },
+  "linter": { "enabled": true, "rules": { "recommended": true } }
+}
