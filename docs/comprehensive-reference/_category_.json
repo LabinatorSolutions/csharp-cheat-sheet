@@ -1,0 +1,12 @@
+{
+  "label": "C# Comprehensive Reference",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/comprehensive-reference",
+    "title": "C# Comprehensive Reference",
+    "description": "29 chapters and 524 worked examples — every C# feature explained in full, from language fundamentals through concurrency, reflection, and the newest C# 14 additions."
+  }
+}

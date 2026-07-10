@@ -10,42 +10,67 @@ This repository contains a collection of comprehensive C# learning resources, ch
 
 ## Available Resources
 
-| Resource                                                        | Description                                                          |
-| --------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [C# Ultimate Cheatsheet](./docs/ultimate-cheatsheet.md)         | The most comprehensive C# cheatsheet covering C# 1-14, plus a preview of unreleased C# 15 features |
-| [C# Comprehensive Reference](./docs/comprehensive-reference.md) | Detailed reference guide covering all C# features through version 14, plus a preview of unreleased C# 15 features |
-| [C# Concise Reference](./docs/concise-reference.md)             | A more concise reference guide for quick lookups                     |
-| [C# Mindmap](./docs/mindmap.html)                               | Visual mindmap of C# concepts and their relationships                |
+| Resource                                                                                            | Description                                                                                                        |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [C# Ultimate Cheatsheet](https://csharp-cheatsheet.labinator.com/docs/ultimate-cheatsheet)           | The most comprehensive C# cheatsheet covering C# 1-14, plus a preview of unreleased C# 15 features                 |
+| [C# Comprehensive Reference](https://csharp-cheatsheet.labinator.com/docs/comprehensive-reference)   | Detailed reference guide covering all C# features through version 14, plus a preview of unreleased C# 15 features  |
+| [C# Concise Reference](https://csharp-cheatsheet.labinator.com/docs/concise-reference)               | A more concise reference guide for quick lookups                                                                    |
+| [C# Mindmap](https://csharp-cheatsheet.labinator.com/mindmap.html)                                   | Visual mindmap of C# concepts and their relationships                                                               |
 
 ## How to Use These Resources
 
-- **For beginners**: Start with the [C# Concise Reference](https://csharp-cheatsheet.labinator.com/docs/concise-reference.md) to get familiar with the core concepts.
-- **For quick lookups**: The [C# Ultimate Cheatsheet](https://csharp-cheatsheet.labinator.com/docs/ultimate-cheatsheet.md) is organized for easy reference.
-- **For visual learners**: Check out the [C# Mindmap](https://csharp-cheatsheet.labinator.com/docs/mindmap.html) to see how concepts relate to each other.
-- **For in-depth learning**: The [C# Comprehensive Reference](https://csharp-cheatsheet.labinator.com/docs/comprehensive-reference.md) provides detailed explanations of all features.
+- **For beginners**: Start with the [C# Concise Reference](https://csharp-cheatsheet.labinator.com/docs/concise-reference) to get familiar with the core concepts.
+- **For quick lookups**: The [C# Ultimate Cheatsheet](https://csharp-cheatsheet.labinator.com/docs/ultimate-cheatsheet) is organized for easy reference.
+- **For visual learners**: Check out the [C# Mindmap](https://csharp-cheatsheet.labinator.com/mindmap.html) to see how concepts relate to each other.
+- **For in-depth learning**: The [C# Comprehensive Reference](https://csharp-cheatsheet.labinator.com/docs/comprehensive-reference) provides detailed explanations of all features.
 - **For the full structured course**: [Labinator's Core C# Guide](https://csharp.labinator.com/) covers the same material as a progressive, in-depth learning path rather than a reference.
 
 ## Repository Structure
 
-```
+```text
 CSharp Cheatsheet/
-├── assets/                         # Static assets
-│   ├── css/                        # Stylesheets
-│   ├── js/                         # JavaScript files
-│   ├── csharp-mindmap-poster.png   # Mindmap poster image
-│   └── favicon.svg                 # Site favicon/logo
-├── docs/                           # Documentation files
-│   ├── comprehensive-reference.md  # Comprehensive C# reference
+├── docs/                           # Documentation content (Docusaurus docs plugin)
+│   ├── comprehensive-reference/    # 29-chapter comprehensive C# reference
 │   ├── concise-reference.md        # Concise C# reference
+│   └── ultimate-cheatsheet.md      # Ultimate C# cheatsheet
+├── scripts/
+│   └── split-comprehensive-reference.mjs  # Re-runnable chapter-split script
+├── src/
+│   ├── css/
+│   │   └── custom.css              # Site theme (Infima overrides + landing page styles)
+│   ├── pages/
+│   │   └── index.js                # Landing page
+│   └── theme/
+│       └── Footer/                 # Swizzled footer (dynamic copyright year)
+├── static/                         # Static assets served as-is
+│   ├── fonts/                      # Self-hosted fonts
+│   ├── img/                        # Favicon, mindmap poster image
 │   └── mindmap.html                # Visual C# mindmap
-├── index.html                      # Main landing page
+├── docusaurus.config.js            # Site configuration
+├── sidebars.js                     # Docs sidebar configuration
+├── package.json                    # Scripts and dependencies (Bun)
+├── biome.json                      # Linter/formatter config
+├── .rumdl.toml                     # Markdown lint config
+├── tsconfig.json                   # JSDoc type-checking config
 ├── LICENSE.md                      # License information
 └── README.md                       # This file
 ```
 
+## Development
+
+This site runs on [Docusaurus](https://docusaurus.io/) with [Bun](https://bun.sh/) as the package manager.
+
+```bash
+bun install      # install dependencies
+bun run start    # dev server at localhost:3000
+bun run build    # production build to ./build
+bun run serve    # serve the production build locally
+bun run health   # lint + markdown lint + typecheck
+```
+
 ## Contributing
 
-Contributions, bug fixes, additions, and improvements are welcome! Please feel free to submit a pull request or open an issue.
+Contributions, bug fixes, additions, and improvements are welcome! Please feel free to submit a pull request or open an issue. Run `bun run health` before submitting — it must pass clean.
 
 ## License
 

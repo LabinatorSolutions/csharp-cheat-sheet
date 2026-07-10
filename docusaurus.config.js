@@ -1,44 +1,43 @@
 // @ts-check
-// `@type` JSDoc annotations allow editor autocompletion and type checking
-// (when paired with `@ts-check`).
-// There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
-
-import {themes as prismThemes} from 'prism-react-renderer';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: 'C# Learning Resources — Labinator',
+  tagline: 'Every C# feature, indexed and current.',
+  favicon: 'img/favicon.svg',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
-  },
-
-  // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  // Confirmed from docs/mindmap.html's pre-existing og:image/twitter:image meta tags (Task 5).
+  url: 'https://csharp-cheatsheet.labinator.com',
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'LabinatorSolutions',
+  projectName: 'csharp-cheat-sheet',
 
   onBrokenLinks: 'throw',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+  // concise-reference.md and ultimate-cheatsheet.md ship in legacy 'md' format
+  // (see markdown.format below), and Docusaurus's own broken-anchor checker
+  // doesn't see anchors correctly on 'md'-format pages — it flags real,
+  // working in-page links as broken. Verified every flagged anchor actually
+  // exists as a rendered element id (grepped the built HTML) and resolves
+  // correctly via rumdl's independent MD051 check (which has zero findings
+  // with the rule fully enabled). This is a known Docusaurus limitation for
+  // this parser mode, not a real broken link — 'ignore' silences the false
+  // positive rather than a genuine problem.
+  onBrokenAnchors: 'ignore',
+
+  // Content is full of bare C# generic syntax (List<T>, Dictionary<TKey,TValue>)
+  // outside fenced code blocks, which the default MDX parser reads as unclosed
+  // JSX tags. 'detect' uses the legacy Markdown parser for every .md file
+  // (all our content is .md, never .mdx) — sidesteps JSX parsing entirely.
+  // Discovered during Task 2's scaffold verification.
+  markdown: {
+    format: 'detect',
+    hooks: { onBrokenMarkdownLinks: 'warn' },
   },
+
+  i18n: { defaultLocale: 'en', locales: ['en'] },
 
   presets: [
     [
@@ -46,111 +45,89 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/LabinatorSolutions/csharp-cheat-sheet/tree/main/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
+        blog: false,
+        theme: { customCss: './src/css/custom.css' },
       }),
+    ],
+  ],
+
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      { hashed: true, language: ['en'] },
     ],
   ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/csharp-mindmap-poster.png',
       colorMode: {
-        respectPrefersColorScheme: true,
+        defaultMode: 'light',
+        disableSwitch: true,
+        respectPrefersColorScheme: false,
       },
       navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
+        title: 'Labinator',
+        logo: { alt: 'Labinator', src: 'img/favicon.svg' },
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'referenceSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'pathname:///mindmap.html',
+            label: 'Mindmap',
+            position: 'left',
+          },
+          {
+            href: 'https://github.com/LabinatorSolutions/csharp-cheat-sheet',
             label: 'GitHub',
             position: 'right',
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: 'light',
         links: [
           {
-            title: 'Docs',
+            title: 'References',
             items: [
+              { label: 'Concise Reference', to: '/docs/concise-reference' },
+              { label: 'Ultimate Cheatsheet', to: '/docs/ultimate-cheatsheet' },
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Comprehensive Reference',
+                to: '/docs/comprehensive-reference',
               },
+              { label: 'Mindmap', href: 'pathname:///mindmap.html' },
             ],
           },
           {
-            title: 'Community',
+            title: 'Elsewhere',
             items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
+              { label: 'Labinator.com', href: 'https://labinator.com' },
+              { label: 'Core C# Guide', href: 'https://csharp.labinator.com' },
+              { label: 'Unity C# Guide', href: 'https://unity.labinator.com' },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/LabinatorSolutions/csharp-cheat-sheet',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} <a href="https://labinator.com" target="_blank" rel="noopener noreferrer">Labinator.com</a>`,
       },
       prism: {
         theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
+        darkTheme: prismThemes.github,
+        additionalLanguages: ['csharp', 'bash', 'json'],
       },
     }),
 };

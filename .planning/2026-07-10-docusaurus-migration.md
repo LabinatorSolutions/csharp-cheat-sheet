@@ -20,7 +20,7 @@
 - **Mindmap**: copied verbatim to `static/mindmap.html`, served at `/mindmap.html`, linked from the navbar. Not converted to a React page — it's already a complete, working interactive document.
 - **Deploy**: Cloudflare Pages, connected directly to this GitHub repo. Build command `bun run build`, output directory `build`, root directory `/` (Docusaurus lives at repo root, no subfolder). No GitHub Actions involved.
 - **Delete `.github/workflows/static.yml`** (and the now-empty `.github/` tree) — GitHub Actions is disabled for this repo; GitHub hosts the repo files only, Cloudflare does the build. Confirmed by user.
-- **Open question — production URL:** `docusaurus.config.js`'s `url` field needs the real Cloudflare Pages / custom domain for this site (used for sitemap + canonical tags + social cards). This plan uses a placeholder (`https://REPLACE-WITH-YOUR-DOMAIN.example`) — **the engineer executing Task 7 must ask the user for the real domain before shipping**, it is not guessable from repo contents (the GitHub remote is named `csharp-cheat-sheet`, which doesn't necessarily match the live domain).
+- **Production URL — resolved during Task 5:** `docusaurus.config.js`'s `url` field is `https://csharp-cheatsheet.labinator.com` — confirmed directly from the original `docs/mindmap.html`'s own pre-existing `og:image`/`twitter:image`/`og:url`/`twitter:url` meta tags (repo evidence, not a guess). Task 7 uses this value, not a placeholder.
 - **Markdown parsing mode — discovered during Task 2:** the content in `docs/` is full of C# generic syntax (`List<T>`, `Dictionary<TKey, TValue>`, etc.) appearing as bare prose/headings, not just inside fenced code blocks. Docusaurus's default MDX parser reads a bare `<T>` as an unclosed JSX tag and fails the build. Task 7 sets `markdown: { format: 'detect' }` at the top level of `docusaurus.config.js` — this makes Docusaurus use the lenient legacy Markdown parser for every `.md` file (all our content is `.md`, never `.mdx`), sidestepping JSX parsing entirely instead of hand-escaping angle brackets across 588KB of source content.
 
 ---
@@ -901,7 +901,7 @@ git commit -m "feat: port landing page to src/pages/index.js"
 bun add @easyops-cn/docusaurus-search-local
 ```
 
-- [ ] **Step 2: Ask the user for the real production URL before filling this in** (see Global Constraints — "Open question"). Replace `docusaurus.config.js` with:
+- [ ] **Step 2: Replace `docusaurus.config.js`** (production URL already resolved from repo evidence — see Global Constraints):
 
 ```js
 // @ts-check
@@ -913,9 +913,8 @@ const config = {
   tagline: 'Every C# feature, indexed and current.',
   favicon: 'img/favicon.svg',
 
-  // TODO(human): replace with the real Cloudflare Pages / custom domain before deploying.
-  // Used for sitemap.xml, canonical URLs, and social card generation — not guessable from repo contents.
-  url: 'https://REPLACE-WITH-YOUR-DOMAIN.example',
+  // Confirmed from docs/mindmap.html's pre-existing og:image/twitter:image meta tags (Task 5).
+  url: 'https://csharp-cheatsheet.labinator.com',
   baseUrl: '/',
 
   organizationName: 'LabinatorSolutions',
@@ -1423,7 +1422,7 @@ git add -A
 git commit -m "chore: remove superseded index.html, finish Docusaurus migration"
 ```
 
-- [ ] **Step 8: Report the remaining manual step to the user** — the `url` field in `docusaurus.config.js` is still the placeholder from Task 7. This must be set to the real Cloudflare Pages domain before the Cloudflare build is connected, otherwise the sitemap/canonical URLs/social cards will point at `REPLACE-WITH-YOUR-DOMAIN.example`.
+- [ ] **Step 8: No open manual step remains** — the `url` field in `docusaurus.config.js` was set to the confirmed production domain (`https://csharp-cheatsheet.labinator.com`) in Task 7, resolved from repo evidence during Task 5. Nothing further needed before connecting the Cloudflare build.
 
 ---
 
@@ -1431,4 +1430,4 @@ git commit -m "chore: remove superseded index.html, finish Docusaurus migration"
 
 - **Spec coverage:** all three locked decisions covered — landing page absorbed (Task 6), only comprehensive-reference split (Task 9), Cloudflare Pages deploy assumed with GitHub Actions removed (Task 1). Fonts/colors/spacing tokens ported (Task 4). Mindmap preserved (Task 5). Search added (Task 7). No dark mode (Task 7).
 - **Known deliberate simplifications** (called out inline, not hidden): the old wordmark/colophon footer block is dropped in favor of Docusaurus's standard footer; the hand-written in-page Table of Contents inside `concise-reference.md`/`ultimate-cheatsheet.md` is left as-is (now redundant with Docusaurus's auto-generated right-side TOC, but removing it is optional cosmetic cleanup, not required for correctness).
-- **Open item requiring user input:** production `url` in `docusaurus.config.js` (Task 7) — flagged three times (Global Constraints, Task 7 Step 2, Task 11 Step 8) so it can't be missed.
+- **Resolved during execution:** production `url` in `docusaurus.config.js` was an open question at plan-writing time; Task 5's implementer discovered the real domain (`https://csharp-cheatsheet.labinator.com`) already embedded in `docs/mindmap.html`'s pre-existing social meta tags, so Task 7 uses that confirmed value directly — no user input was needed after all.

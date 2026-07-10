@@ -1,4 +1,8 @@
-# C# Concise Reference
+---
+title: "C# Concise Reference"
+description: "70 topics, one paragraph and one example each — built for the moment you know what you need and just want the syntax, fast."
+sidebar_position: 1
+---
 
 > By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14.
 > This file is originally based on the C# cheatsheet of Dr. Milan Milanovic.
@@ -9,7 +13,7 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
 
 ## Table of contents
 
-- [C# Concise Reference](#c-concise-reference)
+- C# Concise Reference
   - [Introduction](#introduction)
   - [Table of contents](#table-of-contents)
 - [Comments](#comments)
@@ -61,7 +65,7 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
 - [Generics](#generics)
   - [Ref Struct Generic Constraint (C# 13+)](#ref-struct-generic-constraint-c-13)
   - [Nameof With Unbound Generic Types (C# 14+)](#nameof-with-unbound-generic-types-c-14)
-- [Classes](#classes-1)
+- [Classes](#classes-and-inheritance)
   - [Constructors and initialization](#constructors-and-initialization)
     - [Implicit Indexer Access in Object Initializers (C# 13+)](#implicit-indexer-access-in-object-initializers-c-13)
   - [Primary constructors (C# 12+)](#primary-constructors-c-12)
@@ -116,7 +120,7 @@ This comprehensive C# cheat sheet serves as a quick reference guide for C# devel
     - [Access modifier guidelines:](#access-modifier-guidelines)
   - [Properties and indexers](#properties-and-indexers)
     - [Field Keyword (C# 14+)](#field-keyword-c-14)
-  - [**Premium Learning Resources**](#premium-learning-resources)
+  - [**Premium Learning Resources**](https://csharp.labinator.com)
 
 <div id="comments"></div>
 

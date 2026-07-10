@@ -1,4 +1,8 @@
-# The Ultimate C# Comprehensive Cheatsheet
+---
+title: "C# Ultimate Cheatsheet"
+description: "Every C# feature from version 1 through 14, packed into one dense, scannable document."
+sidebar_position: 2
+---
 
 > By [Labinator.com](https://labinator.com) – Comprehensive C# references, current through C# 14
 
@@ -10,7 +14,7 @@
 
 ## Table of Contents
 
-- [The Ultimate C# Comprehensive Cheatsheet](#the-ultimate-c-comprehensive-cheatsheet)
+- The Ultimate C# Comprehensive Cheatsheet
   - [Table of Contents](#table-of-contents)
   - [**1. Core Concepts \& Program Structure**](#1-core-concepts--program-structure)
     - [**Program Entry Point**](#program-entry-point)
@@ -77,7 +81,7 @@
     - [**Interactive Learning \& Tutorials**](#interactive-learning--tutorials)
     - [**Coding Style Guides**](#coding-style-guides)
     - [Other Useful Resources](#other-useful-resources)
-    - [**Premium Learning Resources**](#premium-learning-resources)
+    - [**Premium Learning Resources**](https://csharp.labinator.com)
 
 ---
 

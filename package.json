@@ -1,12 +1,13 @@
 {
-  "name": "docusaurus-scaffold",
-  "version": "0.0.0",
+  "name": "csharp-cheatsheet",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
     "prebuild": "bun run lint:md",
     "serve": "docusaurus serve",
+    "preview": "docusaurus serve",
     "clear": "docusaurus clear",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -15,24 +16,31 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:md": "rumdl check docs/",
+    "lint:md:fix": "rumdl fmt docs/",
     "format": "biome format --write .",
-    "health": "bun run lint && bun run lint:md"
+    "typecheck": "tsc --noEmit",
+    "health": "bun run lint && bun run lint:md && bun run typecheck"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
     "@docusaurus/faster": "3.10.1",
     "@docusaurus/preset-classic": "3.10.1",
-    "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@easyops-cn/docusaurus-search-local": "^0.55.2",
+    "@mdx-js/react": "^3.1.1",
+    "baseline-browser-mapping": "^2.10.42",
+    "caniuse-lite": "^1.0.30001803",
+    "clsx": "^2.1.1",
+    "prism-react-renderer": "^2.4.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
     "@docusaurus/module-type-aliases": "3.10.1",
+    "@docusaurus/tsconfig": "^3.10.1",
     "@docusaurus/types": "3.10.1",
-    "rumdl": "^0.2.30"
+    "rumdl": "^0.2.30",
+    "typescript": "^5.9.3"
   },
   "browserslist": {
     "production": [
@@ -47,6 +55,6 @@
     ]
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=24.18.0"
   }
 }

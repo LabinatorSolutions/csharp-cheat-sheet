@@ -5,12 +5,15 @@
       "**",
       "!!static/img",
       "!!static/fonts",
+      "!!static/mindmap.html",
       "!!**/node_modules",
       "!!**/build",
       "!!**/.docusaurus",
+      "!!**/.rumdl_cache",
       "!!bun.lock"
     ]
   },
-  "formatter": { "enabled": true },
-  "linter": { "enabled": true, "rules": { "preset": "recommended" } }
+  "formatter": { "enabled": true, "indentStyle": "space" },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "javascript": { "formatter": { "quoteStyle": "single" } }
 }
