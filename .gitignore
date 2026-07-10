@@ -16,3 +16,9 @@ $RECYCLE.BIN/
 
 # Linux
 .directory
+
+# Docusaurus
+.docusaurus
+build
+node_modules
+.cache-loader
