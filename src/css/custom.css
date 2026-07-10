@@ -4,27 +4,123 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
-:root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+/* ==========================================================================
+   Labinator design system tokens (ported from the original static site)
+   ========================================================================== */
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin-300-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/inter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+:root {
+  /* Color */
+  --lb-primary: #2400ff;
+  --lb-primary-text: #1e00d6;
+  --lb-primary-deep: #1b00bd;
+  --lb-primary-tint: #eceafd;
+  --lb-primary-wash: #f5f4fe;
+  --lb-on-primary: #ffffff;
+  --lb-ink: #141414;
+  --lb-ink-soft: #262626;
+  --lb-charcoal: #3d3d3d;
+  --lb-slate: #4a4a4a;
+  --lb-paper: #faf8f4;
+  --lb-paper-bright: #ffffff;
+  --lb-paper-deep: #f2efe8;
+  --lb-ink-panel: #141414;
+  --lb-on-ink: #faf8f4;
+  --lb-on-ink-muted: #c9c6bf;
+  --lb-hairline: #e3dfd6;
+  --lb-hairline-strong: #c9c4b8;
+  --lb-hairline-ink: #2e2e2e;
+  --lb-focus-ring: #2400ff;
+  --lb-link: #1e00d6;
+
+  /* Type */
+  --lb-font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --lb-font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --lb-font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* Spacing */
+  --lb-xxs: 0.25rem;
+  --lb-xs: 0.5rem;
+  --lb-sm: 0.75rem;
+  --lb-md: 1rem;
+  --lb-lg: 1.5rem;
+  --lb-xl: 2rem;
+  --lb-xxl: 3rem;
+  --lb-xxxl: 4rem;
+  --lb-section-sm: clamp(3rem, 6vw, 5rem);
+  --lb-section: clamp(4rem, 9vw, 7.5rem);
+  --lb-section-lg: clamp(6rem, 12vw, 10rem);
+
+  /* Motion */
+  --lb-duration-fast: 200ms;
+  --lb-duration-base: 450ms;
+  --lb-duration-slow: 700ms;
+  --lb-ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --lb-rise: 1.25rem;
+
+  /* Radius */
+  --lb-radius-none: 0;
+  --lb-radius-xs: 0.125rem;
+
+  /* Infima overrides — site-wide brand (docs pages + landing page share these) */
+  --ifm-font-family-base: var(--lb-font-body);
+  --ifm-font-family-monospace: var(--lb-font-mono);
+  --ifm-heading-font-family: var(--lb-font-display);
+  --ifm-color-primary: #2400ff;
+  --ifm-color-primary-dark: #1e00d6;
+  --ifm-color-primary-darker: #1b00bd;
+  --ifm-color-primary-darkest: #150096;
+  --ifm-color-primary-light: #4d33ff;
+  --ifm-color-primary-lighter: #7a66ff;
+  --ifm-color-primary-lightest: #eceafd;
+  --ifm-code-font-size: 90%;
 }
