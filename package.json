@@ -22,9 +22,9 @@
     "health": "bun run lint && bun run lint:md && bun run typecheck"
   },
   "dependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/faster": "3.10.1",
-    "@docusaurus/preset-classic": "3.10.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
     "@easyops-cn/docusaurus-search-local": "^0.55.2",
     "@mdx-js/react": "^3.1.1",
     "baseline-browser-mapping": "^2.10.42",
@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
-    "@docusaurus/module-type-aliases": "3.10.1",
-    "@docusaurus/tsconfig": "^3.10.1",
-    "@docusaurus/types": "3.10.1",
+    "@docusaurus/module-type-aliases": "3.10.2",
+    "@docusaurus/tsconfig": "^3.10.2",
+    "@docusaurus/types": "3.10.2",
     "rumdl": "^0.2.30",
     "typescript": "^5.9.3"
   },
