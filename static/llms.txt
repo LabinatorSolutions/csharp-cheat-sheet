@@ -1,0 +1,18 @@
+# C# Learning Resources — Labinator
+
+> Every C# feature, indexed and current. A curated set of C# references by Labinator (https://labinator.com): a concise reference, an ultimate cheatsheet, a comprehensive reference, and an interactive mind map. Free and open, with full-text search.
+
+## References
+
+- [Concise Reference](https://csharp-cheatsheet.labinator.com/docs/concise-reference): The essentials of C# in a fast, scannable format.
+- [Ultimate Cheatsheet](https://csharp-cheatsheet.labinator.com/docs/ultimate-cheatsheet): A dense, single-page cheatsheet of C# syntax and idioms.
+- [Comprehensive Reference](https://csharp-cheatsheet.labinator.com/docs/comprehensive-reference): In-depth coverage of the C# language, feature by feature.
+
+## Interactive
+
+- [C# Mindmap](https://csharp-cheatsheet.labinator.com/mindmap.html): A visual, interactive map of the C# language.
+
+## Related Labinator Guides
+
+- [Core C# Guide](https://csharp.labinator.com): Essential concise C# reference.
+- [Unity C# Guide](https://unity.labinator.com): C# for the Unity game engine.

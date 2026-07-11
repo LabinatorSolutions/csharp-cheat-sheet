@@ -2349,7 +2349,6 @@ Writing readable and maintainable code is crucial. These guides provide industry
 
 This repository also features other references and resources as follows:
 
-- [C# Mindmap](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Mindmap.html)
-- [C# Concise Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Concise-Reference.md)
-- [C# Comprehensive Reference](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/CSharp-Comprehensive-Reference.md)
-- [The Official C# Documentation In PDF](https://github.com/LabinatorSolutions/csharp-cheat-sheet/blob/main/dotNet-CSharp-Official-Doc.pdf)
+- [C# Mindmap](pathname:///mindmap.html)
+- [C# Concise Reference](/docs/concise-reference)
+- [C# Comprehensive Reference](/docs/comprehensive-reference)

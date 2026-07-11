@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
 
   organizationName: 'LabinatorSolutions',
-  projectName: 'csharp-cheat-sheet',
+  projectName: 'csharp-cheatsheet',
 
   onBrokenLinks: 'throw',
 
@@ -39,6 +39,48 @@ const config = {
 
   i18n: { defaultLocale: 'en', locales: ['en'] },
 
+  headTags: [
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': 'https://labinator.com/#organization',
+            name: 'Labinator',
+            url: 'https://labinator.com',
+            logo: 'https://csharp-cheatsheet.labinator.com/img/favicon.svg',
+            sameAs: [
+              'https://labinator.com',
+              'https://github.com/LabinatorSolutions',
+            ],
+          },
+          {
+            '@type': 'WebSite',
+            '@id': 'https://csharp-cheatsheet.labinator.com/#website',
+            name: 'C# Learning Resources',
+            url: 'https://csharp-cheatsheet.labinator.com',
+            description:
+              'Every C# feature, indexed and current — a concise reference, an ultimate cheatsheet, a comprehensive reference, and an interactive mind map.',
+            inLanguage: 'en',
+            publisher: { '@id': 'https://labinator.com/#organization' },
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: {
+                '@type': 'EntryPoint',
+                urlTemplate:
+                  'https://csharp-cheatsheet.labinator.com/search?q={search_term_string}',
+              },
+              'query-input': 'required name=search_term_string',
+            },
+          },
+        ],
+      }),
+    },
+  ],
+
   presets: [
     [
       'classic',
@@ -48,7 +90,7 @@ const config = {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
           editUrl:
-            'https://github.com/LabinatorSolutions/csharp-cheat-sheet/tree/main/',
+            'https://github.com/LabinatorSolutions/csharp-cheatsheet/tree/main/',
         },
         blog: false,
         theme: { customCss: './src/css/custom.css' },
@@ -66,7 +108,19 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/csharp-mindmap-poster.png',
+      image: 'img/og-image.png',
+      metadata: [
+        {
+          name: 'description',
+          content:
+            'Every C# feature, indexed and current — a concise reference, an ultimate cheatsheet, a comprehensive reference, and an interactive mind map.',
+        },
+        {
+          name: 'keywords',
+          content:
+            'c# cheatsheet, c# reference, csharp cheat sheet, c# features, learn c#, .net, c# quick reference',
+        },
+      ],
       colorMode: {
         defaultMode: 'light',
         disableSwitch: true,
@@ -88,7 +142,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/LabinatorSolutions/csharp-cheat-sheet',
+            href: 'https://github.com/LabinatorSolutions/csharp-cheatsheet',
             label: 'GitHub',
             position: 'right',
           },
@@ -117,7 +171,7 @@ const config = {
               { label: 'Unity C# Guide', href: 'https://unity.labinator.com' },
               {
                 label: 'GitHub',
-                href: 'https://github.com/LabinatorSolutions/csharp-cheat-sheet',
+                href: 'https://github.com/LabinatorSolutions/csharp-cheatsheet',
               },
             ],
           },

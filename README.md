@@ -76,6 +76,10 @@ Contributions, bug fixes, additions, and improvements are welcome! Please feel f
 
 This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE.md](./LICENSE.md) file for details.
 
+## SEO & GEO
+
+This site ships canonical URLs, Open Graph/Twitter social cards (`static/img/og-image.png` for the site and `static/img/og-mindmap.png` for the mindmap, 1280×640), and JSON-LD structured data — an `Organization` + `WebSite` `@graph` with a sitelinks `SearchAction`. `static/robots.txt` allows search and citing AI crawlers while blocking training-only bots (GPTBot, CCBot, Google-Extended, Bytespider, Amazonbot); `static/llms.txt` provides an AI-discoverability map; the sitemap is generated at `/sitemap.xml`. All SEO config lives in `docusaurus.config.js` (`url`, `themeConfig.image`, `themeConfig.metadata`, `headTags`). See [CLAUDE.md](./CLAUDE.md) → "SEO & GEO".
+
 ## About Labinator
 
 [Labinator.com](https://labinator.com) is a software development studio. These C# references are maintained alongside [Labinator's Core C# Guide](https://csharp.labinator.com/) and [Unity C# Guide](https://unity.labinator.com/).
